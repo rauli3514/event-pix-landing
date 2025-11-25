@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPix - Muro Interactivo para Eventos</title>
+    <meta name="description"
+        content="EventPix: tus fotos y mensajes en la pantalla gigante de tu evento. Muro interactivo, código QR y diversión asegurada. Sin descargar apps.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                EventPix <span class="subtitle">by Tecno Eventos</span>
+            </div>
+            <div class="nav-links">
+                <a href="#como-funciona">Cómo funciona</a>
+                <a href="#precios">Precios</a>
+                <a href="#demo">Demo</a>
+                <a href="#servicios">Servicios</a>
+                <a href="#contacto" class="btn btn-primary-sm">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1>EventPix: tus fotos y mensajes en la pantalla gigante de tu evento</h1>
+                <p class="hero-subtitle">
+                    Tus invitados escanean un QR, suben fotos y mensajes desde su celular y todo aparece al instante en
+                    un muro interactivo. Sin descargar apps.
+                </p>
+                <div class="hero-buttons">
+                    <!-- LINK WHATSAPP: Ya configurado con tu número -->
+                    <a href="https://wa.me/543624547382?text=Hola!%20Me%20interesa%20EventPix%20para%20mi%20evento"
+                        class="btn btn-primary"><i class="fab fa-whatsapp"></i> Quiero EventPix en mi evento</a>
+                    <!-- LINK DEMO: Apunta al wall demo -->
+                    <a href="https://rauli3514.github.io/event-pix/default/display" class="btn btn-secondary"
+                        target="_blank" rel="noopener noreferrer">Ver muro en vivo</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/images/hero_mockup.png" alt="Pantalla gigante con muro de fotos EventPix"
+                    id="hero-img-placeholder">
+            </div>
+        </div>
+    </header>
+
+    <!-- How it works -->
+    <section id="como-funciona" class="section">
+        <div class="container">
+            <h2 class="section-title">¿Cómo funciona EventPix?</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-qrcode"></i></div>
+                    <h3>1. Recibís tu QR</h3>
+                    <p>El organizador recibe un link y un código QR único para el evento.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>2. Invitados participan</h3>
+                    <p>Tus invitados escanean el código y suben fotos y mensajes desde su celular.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-tv"></i></div>
+                    <h3>3. Muro en vivo</h3>
+                    <p>Las fotos y mensajes aparecen en tiempo real en la pantalla gigante.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-download"></i></div>
+                    <h3>4. Recuerdos para siempre</h3>
+                    <p>Después del evento, recibís todas las fotos y mensajes en un álbum digital para guardarlos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What includes -->
+    <section class="section bg-darker">
+        <div class="container">
+            <h2 class="section-title">¿Qué incluye EventPix?</h2>
+            <div class="features-grid">
+                <div class="feature-item feature-highlight">
+                    <i class="fas fa-dice"></i>
+                    <span>Ruleta de desafíos interactiva <span class="badge-new">NUEVO</span></span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Muro de fotos y mensajes en vivo</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Código QR listo para imprimir</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Diseño personalizado con nombre del evento</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Álbum digital con todas las fotos y mensajes</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Soporte remoto durante el evento</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="precios" class="section">
+        <div class="container">
+            <h2 class="section-title">Precios</h2>
+            <p class="section-subtitle">
+                Un precio claro y simple para que puedas planificar tu evento sin sorpresas.
+            </p>
+
+            <div class="pricing-grid">
+                <!-- Plan Cliente Final -->
+                <div class="pricing-card pricing-featured">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Evento único – hasta 12 horas</h3>
+                        <div class="pricing-price">
+                            <span class="price-amount">$70.000</span>
+                            <span class="price-currency">ARS</span>
+                        </div>
+                        <p class="pricing-duration">Servicio por evento, hasta 12 horas de uso.</p>
+                    </div>
+
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Muro de fotos y mensajes en vivo</li>
+                            <li><i class="fas fa-check"></i> Código QR único listo para imprimir</li>
+                            <li><i class="fas fa-check"></i> Diseño personalizado con nombre del evento</li>
+                            <li><i class="fas fa-check"></i> Ruleta de desafíos interactiva</li>
+                            <li><i class="fas fa-check"></i> Álbum digital con todas las fotos y mensajes al finalizar
+                            </li>
+                            <li><i class="fas fa-check"></i> Soporte remoto durante el evento</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-cta">
+                        <!-- TODO: Reemplazar con link de WhatsApp -->
+                        <a href="https://wa.me/543624547382?text=Hola!%20Me%20interesa%20EventPix%20para%20mi%20evento"
+                            class="btn btn-primary btn-lg">
+                            <i class="fab fa-whatsapp"></i> Quiero EventPix en mi evento
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Plan Proveedores -->
+                <div class="pricing-card pricing-provider">
+                    <div class="pricing-badge">Para proveedores y salones</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Plan Proveedores</h3>
+                        <div class="pricing-discount">
+                            <span class="discount-amount">20%</span>
+                            <span class="discount-text">de descuento por evento</span>
+                        </div>
+                        <p class="pricing-subtitle">Ideal para tus primeros eventos con EventPix</p>
+                    </div>
+
+                    <div class="pricing-description">
+                        <p>Pensado para proveedores de eventos, fotógrafos, DJs y salones que quieran sumar EventPix a
+                            sus servicios.</p>
+                        <p>Obtenés un <strong>20% de descuento por evento</strong> sobre el precio de lista.</p>
+                        <p>La idea es que puedas realizar tus primeros eventos con una inversión mínima, comprobar la
+                            satisfacción de tus clientes y prepararte para migrar a nuestros planes de alto volumen.</p>
+                    </div>
+
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 20% de descuento por evento contratado</li>
+                            <li><i class="fas fa-check"></i> Podés revender EventPix dentro de tus propios paquetes de
+                                servicio</li>
+                            <li><i class="fas fa-check"></i> Material de apoyo para comunicar el servicio a tus clientes
+                                (mockups, textos, imágenes)</li>
+                            <li><i class="fas fa-check"></i> Prioridad en soporte durante tus eventos</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-cta">
+                        <!-- TODO: Reemplazar con link a formulario de contacto / WhatsApp -->
+                        <a href="#contacto" class="btn btn-secondary btn-lg">
+                            Quiero ser proveedor EventPix
+                        </a>
+                    </div>
+
+                    <div class="pricing-note">
+                        <p><small>Los beneficios para proveedores se adaptan según la frecuencia de eventos. Escribinos
+                                para conocer las condiciones completas.</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ideal for -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Ideal para...</h2>
+            <div class="events-grid">
+                <div class="event-card">Bodas</div>
+                <div class="event-card">15 Años</div>
+                <div class="event-card">Egresos</div>
+                <div class="event-card">Cumpleaños</div>
+                <div class="event-card">Corporativos</div>
+            </div>
+            <p class="event-tagline">EventPix se adapta a cualquier evento donde haya invitados con celular… o sea,
+                casi todos.</p>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section bg-darker">
+        <div class="container">
+            <h2 class="section-title">Qué dicen quienes ya usaron EventPix</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"¡Fue increíble! Todos se divirtieron subiendo fotos y verlas en la pantalla gigante le dio un
+                        toque único a la fiesta."</p>
+                    <div class="author">- María, Boda</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Súper fácil de usar. Los invitados no paraban de mandar mensajes y desafíos con la ruleta. Muy
+                        recomendado."</p>
+                    <div class="author">- Juan, Cumpleaños 40</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"La mejor inversión para mi fiesta de egresados. Todos quedaron encantados con el muro en vivo y
+                        la interacción."</p>
+                    <div class="author">- Lucía, Egresados</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="section demo-section">
+        <div class="container">
+            <h2 class="section-title">Probá EventPix ahora mismo</h2>
+            <p class="section-subtitle">
+                Entrá a una versión demo para ver cómo se sienten tus invitados al subir fotos y cómo se ve el muro en
+                vivo.
+            </p>
+            <div class="demo-buttons">
+                <!-- LINK DEMO: Pantalla de invitados (subir fotos) -->
+                <a href="https://rauli3514.github.io/event-pix/default" class="btn btn-demo" target="_blank"
+                    rel="noopener noreferrer">
+                    <i class="fas fa-camera"></i> Probar subir fotos (demo)
+                </a>
+                <!-- LINK DEMO: Muro en vivo -->
+                <a href="https://rauli3514.github.io/event-pix/default/display" class="btn btn-demo" target="_blank"
+                    rel="noopener noreferrer">
+                    <i class="fas fa-desktop"></i> Ver muro demo
+                </a>
+            </div>
+            <p class="demo-note">Esto es solo una demo. Los eventos reales tienen su propio código y diseño
+                personalizado.</p>
+        </div>
+    </section>
+
+    <!-- Optional Services (Tecno Eventos) -->
+    <section id="servicios" class="section bg-gradient">
+        <div class="container">
+            <h2 class="section-title">Potenciá tu evento con Tecno Eventos</h2>
+            <p class="section-subtitle">
+                EventPix es parte del ecosistema de Tecno Eventos. Si querés ir un paso más allá, podés sumar estos
+                servicios opcionales.
+            </p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Espejo Mágico de fotos</h3>
+                    <p>Un espejo interactivo donde tus invitados posan, se ven en pantalla, se sacan fotos con marcos
+                        personalizados y se llevan la impresión en el momento.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Cabina de Video / Selfie</h3>
+                    <p>Una cabina instagrameable donde los invitados graban clips cortos o se sacan fotos con luces y
+                        fondos llamativos para compartir en redes.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Libro de Firmas Digital</h3>
+                    <p>Un espacio interactivo donde los invitados dejan mensajes y dedicatorias. Al final, te llevás
+                        todo recopilado en un solo recuerdo.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Bienvenida en Pantalla</h3>
+                    <p>Mensajes de bienvenida, fotos de los homenajeados y timeline del evento, todo coordinado con el
+                        muro de EventPix.</p>
+                </div>
+            </div>
+            <p class="disclaimer">* Estos servicios se contratan por separado junto con EventPix.</p>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contacto" class="section cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>¿Querés EventPix en tu próximo evento?</h2>
+                <p>Completá este formulario y te contacto para armar la mejor opción para tu fiesta.</p>
+
+                <div class="contact-form-wrapper">
+                    <!-- El formulario aún no tiene funcionalidad backend, solo diseño -->
+                    <form class="contact-form" action="#" method="POST">
+                        <input type="text" name="nombre" placeholder="Nombre y apellido" required>
+
+                        <select name="tipo_evento" required>
+                            <option value="">Tipo de evento</option>
+                            <option value="boda">Boda</option>
+                            <option value="15">15 Años</option>
+                            <option value="egreso">Egreso</option>
+                            <option value="cumpleaños">Cumpleaños</option>
+                            <option value="corporativo">Corporativo</option>
+                            <option value="otro">Otro</option>
+                        </select>
+
+                        <input type="date" name="fecha_evento" placeholder="Fecha del evento">
+
+                        <input type="text" name="ciudad" placeholder="Ciudad / Salón">
+
+                        <input type="tel" name="telefono" placeholder="Tu Teléfono / WhatsApp" required>
+
+                        <textarea name="mensaje" placeholder="Mensaje o consulta..." rows="4"></textarea>
+
+                        <button type="submit" class="btn btn-submit">Enviar Consulta</button>
+                    </form>
+                </div>
+
+                <div class="cta-buttons">
+                    <p class="or-divider">o también podés</p>
+                    <!-- LINK WHATSAPP -->
+                    <a href="https://wa.me/543624547382?text=Hola!%20Quiero%20consultar%20sobre%20EventPix%20para%20mi%20evento"
+                        class="btn btn-primary"><i class="fab fa-whatsapp"></i> Escribirme por WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <p>EventPix es un producto de <strong>Tecno Eventos</strong>.</p>
+            </div>
+            <div class="footer-links">
+                <!-- LINKS REDES SOCIALES: Ya configurados -->
+                <a href="https://wa.me/543624547382" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="https://www.instagram.com/tecno_eventos_arg/" target="_blank" rel="noopener noreferrer"
+                    aria-label="Instagram">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://www.tiktok.com/@tecno_eventos_arg" target="_blank" rel="noopener noreferrer"
+                    aria-label="TikTok">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 EventPix. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
