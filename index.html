@@ -312,46 +312,25 @@
         </div>
     </section>
 
-    <!-- Contact Form -->
+    <!-- Contact CTA Section -->
     <section id="contacto" class="section cta-section">
         <div class="container">
-            <div class="cta-content">
-                <h2>¿Querés EventPix en tu próximo evento?</h2>
-                <p>Completá este formulario y te contacto para armar la mejor opción para tu fiesta.</p>
+            <div class="cta-content-centered">
+                <h2 class="cta-title">¿Querés EventPix en tu próximo evento?</h2>
+                <p class="cta-description">
+                    Escribime por WhatsApp y coordinamos la mejor forma de usar EventPix en tu fiesta o evento.
+                </p>
 
-                <div class="contact-form-wrapper">
-                    <!-- El formulario aún no tiene funcionalidad backend, solo diseño -->
-                    <form class="contact-form" action="#" method="POST">
-                        <input type="text" name="nombre" placeholder="Nombre y apellido" required>
-
-                        <select name="tipo_evento" required>
-                            <option value="">Tipo de evento</option>
-                            <option value="boda">Boda</option>
-                            <option value="15">15 Años</option>
-                            <option value="egreso">Egreso</option>
-                            <option value="cumpleaños">Cumpleaños</option>
-                            <option value="corporativo">Corporativo</option>
-                            <option value="otro">Otro</option>
-                        </select>
-
-                        <input type="date" name="fecha_evento" placeholder="Fecha del evento">
-
-                        <input type="text" name="ciudad" placeholder="Ciudad / Salón">
-
-                        <input type="tel" name="telefono" placeholder="Tu Teléfono / WhatsApp" required>
-
-                        <textarea name="mensaje" placeholder="Mensaje o consulta..." rows="4"></textarea>
-
-                        <button type="submit" class="btn btn-submit">Enviar Consulta</button>
-                    </form>
+                <div class="cta-button-wrapper">
+                    <!-- TODO: Agregar link de WhatsApp -->
+                    <a href="#" class="btn btn-primary btn-xl">
+                        <i class="fab fa-whatsapp"></i> Hablar por WhatsApp
+                    </a>
                 </div>
 
-                <div class="cta-buttons">
-                    <p class="or-divider">o también podés</p>
-                    <!-- LINK WHATSAPP -->
-                    <a href="https://wa.me/543624547382?text=Hola!%20Quiero%20consultar%20sobre%20EventPix%20para%20mi%20evento"
-                        class="btn btn-primary"><i class="fab fa-whatsapp"></i> Escribirme por WhatsApp</a>
-                </div>
+                <p class="cta-note">
+                    Respondemos consultas sobre bodas, 15 años, egresos, cumpleaños y eventos corporativos.
+                </p>
             </div>
         </div>
     </section>
