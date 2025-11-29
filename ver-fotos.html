@@ -248,15 +248,28 @@
 
     <!-- Hero / Buscador -->
     <section class="album-hero">
-        <h1 class="hero-title">Busca tu <span class="gradient-text">Evento</span></h1>
-        <p class="hero-subtitle">Ingresa el código del evento para ver y descargar las fotos.</p>
+        <div style="max-width: 600px; width: 100%; text-align: center;">
+            <h1 class="hero-title" style="margin-bottom: 10px;">Busca tu <span class="gradient-text">Evento</span></h1>
+            <p class="hero-subtitle" style="margin-bottom: 30px; font-size: 1.1rem; color: #cbd5e1;">
+                Ingresa el código del evento para ver y descargar las fotos.
+            </p>
 
-        <div class="search-container">
-            <div class="search-box">
-                <input type="text" id="event-code-input" class="search-input" placeholder="CÓDIGO (Ej: ITATI2025)">
-                <button id="search-btn" class="search-btn">BUSCAR</button>
+            <div class="search-container" style="margin: 0 auto;">
+                <div class="search-box" style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="event-code-input" class="search-input" placeholder="CÓDIGO (Ej: ITATI2025)"
+                        style="flex: 1;">
+                    <button id="search-btn" class="search-btn" style="white-space: nowrap;">BUSCAR</button>
+                </div>
+                <p id="search-msg" style="margin-top: 15px; font-size: 0.85rem; min-height: 20px; color: #94a3b8;"></p>
             </div>
-            <p id="search-msg" style="margin-top: 10px; font-size: 0.9rem; min-height: 20px;"></p>
+
+            <!-- Enlaces de ayuda pequeños -->
+            <div style="margin-top: 20px; font-size: 0.8rem; color: #64748b;">
+                <a href="index.html#contacto" style="text-decoration: underline; margin: 0 10px;">¿Olvidaste el
+                    código?</a>
+                <a href="https://wa.me/543624547382" target="_blank"
+                    style="text-decoration: underline; margin: 0 10px;">Ayuda por WhatsApp</a>
+            </div>
         </div>
     </section>
 
