@@ -313,9 +313,33 @@
 
 <body>
 
-    <main class="eventpix-admin-page">
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen"
+        style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f1f5f9;">
+        <div class="card" style="width: 100%; max-width: 400px; padding: 40px;">
+            <h2 style="text-align: center; margin-bottom: 30px; border: none;">Admin Login</h2>
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Usuario</label>
+                <input type="email" id="login-email" placeholder="email@ejemplo.com"
+                    style="width: 100%; padding: 12px; margin-bottom: 20px;">
+            </div>
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Contraseña</label>
+                <input type="password" id="login-password" placeholder="••••••••"
+                    style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: 8px;">
+            </div>
+            <button id="login-btn" class="btn-primary" style="width: 100%;">Ingresar</button>
+            <p id="login-message" class="message" style="text-align: center;"></p>
+        </div>
+    </div>
+
+    <!-- ADMIN CONTENT (Hidden by default) -->
+    <main class="eventpix-admin-page" id="admin-content" style="display: none;">
         <div class="admin-container">
-            <h1>Panel de administración de álbumes - Event Pix</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <h1 style="margin: 0;">Panel de administración</h1>
+                <button id="logout-btn" class="btn-secondary" style="width: auto;">Cerrar Sesión</button>
+            </div>
 
             <!-- BLOQUE: CREAR NUEVO EVENTO -->
             <section class="card">
@@ -402,6 +426,51 @@
     </main>
 
     <script>
+        // ==========================================
+        // 0. AUTH SIMPLE
+        // ==========================================
+        const CREDENTIALS = {
+            user: 'tecnoeventos@gmail.com',
+            pass: 'Isab2025'
+        };
+
+        const loginScreen = document.getElementById('login-screen');
+        const adminContent = document.getElementById('admin-content');
+        const loginBtn = document.getElementById('login-btn');
+        const loginMsg = document.getElementById('login-message');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        function checkAuth() {
+            const isAuth = sessionStorage.getItem('eventpix_admin_auth');
+            if (isAuth === 'true') {
+                showAdmin();
+            }
+        }
+
+        function showAdmin() {
+            loginScreen.style.display = 'none';
+            adminContent.style.display = 'block';
+            loadEventsOptions(); // Cargar eventos solo si está logueado
+        }
+
+        loginBtn.addEventListener('click', () => {
+            const user = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+
+            if (user === CREDENTIALS.user && pass === CREDENTIALS.pass) {
+                sessionStorage.setItem('eventpix_admin_auth', 'true');
+                showAdmin();
+            } else {
+                loginMsg.textContent = 'Credenciales incorrectas';
+                loginMsg.className = 'message error';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('eventpix_admin_auth');
+            location.reload();
+        });
+
         // ==========================================
         // 1. INICIALIZACIÓN DE SUPABASE
         // ==========================================
@@ -779,8 +848,8 @@
             }
         });
 
-        // Cargar eventos al iniciar
-        window.addEventListener('DOMContentLoaded', loadEventsOptions);
+        // Iniciar chequeo de auth
+        window.addEventListener('DOMContentLoaded', checkAuth);
 
     </script>
 </body>
