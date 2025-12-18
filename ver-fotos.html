@@ -276,8 +276,13 @@
             <div class="search-container" style="margin: 0 auto;">
                 <div class="search-box" style="display: flex; gap: 10px; align-items: center;">
                     <input type="text" id="event-code-input" class="search-input" placeholder="CÓDIGO (Ej: ITATI2025)"
-                        style="flex: 1;">
-                    <button id="search-btn" class="search-btn" style="white-space: nowrap;">BUSCAR</button>
+                        style="flex: 1;" onkeypress="if(event.key === 'Enter') searchEvent()">
+                    <button id="search-btn" class="search-btn" style="white-space: nowrap;"
+                        onclick="searchEvent()">BUSCAR</button>
+                </div>
+                <!-- Indicador de estado para depuración -->
+                <div id="system-status" style="margin-top:10px; font-size: 0.7rem; color: #64748b; opacity: 0.8;">
+                    Sistema: <span id="status-indicator">Iniciando...</span>
                 </div>
                 <p id="search-msg" style="margin-top: 15px; font-size: 0.85rem; min-height: 20px; color: #94a3b8;"></p>
             </div>
@@ -323,7 +328,7 @@
             <!-- Logo / Copyright -->
             <div style="font-size: 0.9rem; color: #64748b;">
                 &copy; 2025 <strong>EventPix</strong> by Tecno Eventos. <span
-                    style="font-size:0.7em; opacity:0.5;">v2.3</span>
+                    style="font-size:0.7em; opacity:0.5;">v2.4</span>
             </div>
 
             <!-- Enlaces Horizontales -->
@@ -344,182 +349,274 @@
         </div>
     </footer>
 
-<script>
-    // Logging helper
-    function log(msg, type = 'info') {
-        const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
-        const message = `[EventPix ${timestamp}] ${msg}`;
-        console.log(message);
-        if (type === 'error') console.error(message);
-    }
+    <script>
+        // Logging helper
+        function log(msg, type = 'info') {
+            const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
+            const message = `[EventPix ${timestamp}] ${msg}`;
+            console.log(message);
+            if (type === 'error') console.error(message);
+        }
 
-    log('Script starting executi    
+        log('Script starting execution...');
+        const statusEl = document.getElementById('status-indicator');
+        if (statusEl) statusEl.textContent = 'Cargando scripts...';
 
-        // Configuración    e
-        const SUPABASE_URL = 'https://qzyjblkfrlkwbuljssco.supa    ;
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6eWpibGtmcmxrd2J1bGpzc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzOTk5NDEsImV4cCI6MjA3OTk3NTk0MX0.6KuO6c2qLpZ0jZFH6CPk2g1sDLc5IX5ARA_m8    
+        // Configuración Supabase
+        const SUPABASE_URL = 'https://qzyjblkfrlkwbuljssco.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6eWpibGtmcmxrd2J1bGpzc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzOTk5NDEsImV4cCI6MjA3OTk3NTk0MX0.6KuO6c2qLpZ0jZFH6CPk2g1sDLc5IX5ARA_m89tZKFE';
 
-        let s    
+        let supabase;
 
         // 1. Verificar Supabase Wrapper
-        if         ow.supabase === 'undefined             log('CRITICAL: Supabase Glob        ssing!', 'error');
-            alert('Error cr            o cargar la librería de conexión (Supabase). Por favor reca            verifica tu conexión.');
+        if (typeof window.supabase === 'undefined') {
+            log('CRITICAL: Supabase Global Object missing!', 'error');
+            if (statusEl) {
+                statusEl.textContent = 'Error: Supabase no cargó.';
+                statusEl.style.color = 'red';
+            }
+            alert('Error crítico: No se pudo cargar la librería de conexión (Supabase). Por favor recarga la página o verifica tu conexión.');
         } else {
             // 2. Crear Cliente
             try {
-                if (typeof window.supab             !== 'fu                       throw new Error(        base.c            ot a function');
+                if (typeof window.supabase.createClient !== 'function') {
+                    throw new Error('window.supabase.createClient is not a function');
                 }
-                
-                     = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON                  log('Supabase client created successfully');
-            } catch               r            client: ' + e.message, 'error');
-                alert('Error Inicializand            sage);
+
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                log('Supabase client created successfully');
+                if (statusEl) {
+                    statusEl.textContent = 'Sistema listo';
+                    statusEl.style.color = '#4ade80'; // Green
+                }
+            } catch (e) {
+                log('Error creating Supabase client: ' + e.message, 'error');
+                if (statusEl) statusEl.textContent = 'Error de inicialización';
+                alert('Error Inicializando App: ' + e.message);
             }
         }
 
-        // El                const             ment.getElementById('search-btn');
-        const codeInput = d            ntById('event-code-input');
-        const search            etElemen        h-m          const galleryGr        t.getElementById('gallery-grid');
-        const eventHead        t.getElementById('event-header');
-        const eventNameTitle         etElementById('event-name');
+        // Elementos DOM
+        const searchBtn = document.getElementById('search-btn');
+        const codeInput = document.getElementById('event-code-input');
+        const searchMsg = document.getElementById('search-msg');
+        const galleryGrid = document.getElementById('gallery-grid');
+        const eventHeader = document.getElementById('event-header');
+        const eventNameTitle = document.getElementById('event-name');
 
         // Modal elements
-          modal = document.getElementById('photo-modal');
-        cons         document.getElementById('modal-image');
-        const modalD        cument.getElementById('modal-download-btn');
-        const moda        ument.querySelecto        ose');
-        const modalText = document.getElementBy        xt');
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-image');
+        const modalDownload = document.getElementById('modal-download-btn');
+        const modalClose = document.querySelector('.modal-close');
+        const modalText = document.getElementById('modal-text');
 
         if (!searchBtn || !codeInput) {
-                  cal elements not found', 'error');
-            alert('Error: No se en        s elementos de búsqueda en la página.');
-        } else {
-         / Listeners
-            searchBtn.addEventListener('click'        t);
-
-            codeInput.addEv            press', (e) => {
-                if (e.key ==            hEvent()          }           log('Liste        d');
+            log('Critical elements not found', 'error');
+            alert('Error: No se encontraron los elementos de búsqueda en la página.');
         }
 
         // Mobile menu
-        cons        Btn = document.querySelector('.mobile-menu-btn')            bileMenuBtn) {
-            mobileMenuB        isten        () => {
-               ument.querySelector('.nav-links').classList.toggle('active');
-                    }
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.toggle('active');
+            });
+        }
 
-        //            
+        // Modal functions
         if (modalClose) {
-            modalClos                click', () => {
+            modalClose.addEventListener('click', () => {
                 modal.style.display = 'none';
-                           if                   modal.add        r('click', (e) =>               if (e.target === modal) {
-                                 ay = 'none';
-                }            
-                      Modal = async            ype) {
-            if (!modal) return;
-                     modalImg.style.display                     dalText.style.display = 'none'                ow            ;
+            });
+        }
 
-         f (        age') {
-                modalImg. src = url;
-               alImg.style.display              style.display = 'flex';
-                     pe === 'text') {
-                m            tent = 'Cargando mensaje...               modalText.style.displ                          modal.styl                
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        window.openModal = async function (url, type) {
+            if (!modal) return;
+
+            modalImg.style.display = 'none';
+            modalText.style.display = 'none';
+            modalDownload.href = url;
+
+            if (type === 'image') {
+                modalImg.src = url;
+                modalImg.style.display = 'block';
+                modal.style.display = 'flex';
+            } else if (type === 'text') {
+                modalText.textContent = 'Cargando mensaje...';
+                modalText.style.display = 'block';
+                modal.style.display = 'flex';
+
                 try {
-                           nse = await fetch(url);
-                   (response.ok) {
-                             t = await response.text();
-                                    ntent = text;
-                    }                            modalText.textConte                r el m                          }
-                } catch (e)                    console.error(e);
-                         .textContent = 'Error al cargar el m                                    }
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const text = await response.text();
+                        modalText.textContent = text;
+                    } else {
+                        modalText.textContent = 'Error al cargar el mensaje.';
+                    }
+                } catch (e) {
+                    console.error(e);
+                    modalText.textContent = 'Error al cargar el mensaje.';
+                }
+            }
         };
-                         archEvent                        archEvent = searchEvent;
+
+        // Expose searchEvent for debug
+        window.searchEvent = searchEvent;
 
         // Buscar evento
-                        hE                 log('searchEv                     const code = code                    erCase();
-            log(`Searching for event code: ${                                        earn        favor ingresa un código.';
-             earchMsg.className = 'error-msg';
-            return;
-                       searchBtn.disabled = t             searchBtn.textContent = 'BUSCANDO...';
-                       ontent = '';
-            galleryGrid.innerH            s="msg-contai                ..</div>';
-            eventHeader.style.display = 'none                        if (!supabase) {
-                          client n             'e                    searchMsg.textConte            onexión. Recarga la página.';
-                     .disabled = false;
-                     .textContent = 'BUSCAR';
+        async function searchEvent() {
+            log('searchEvent called');
+            const code = codeInput.value.trim().toUpperCase();
+            log(`Searching for event code: ${code}`);
+
+            if (!code) {
+                searchMsg.textContent = 'Por favor ingresa un código.';
+                searchMsg.className = 'error-msg';
                 return;
             }
 
-            tr                // 1. Buscar evento en DB
-                   erying                .');
-                const                or } = await supabase
-                                                    .select('*')
-                                                                      e)
-                              ;
+            searchBtn.disabled = true;
+            searchBtn.textContent = 'BUSCANDO...';
+            searchMsg.textContent = '';
+            galleryGrid.innerHTML = '<div class="msg-container">Cargando fotos...</div>';
+            eventHeader.style.display = 'none';
 
-                                             throw new Err                     + error.message)                                                 !events) {
-                    log('No event found with                                     encontrado (Co                    ');
+            if (!supabase) {
+                log('Supabase client not initialized', 'error');
+                searchMsg.textContent = 'Error de conexión. Recarga la página.';
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'BUSCAR';
+                return;
+            }
+
+            try {
+                // 1. Buscar evento en DB
+                log('Querying Supabase database...');
+                const { data: events, error } = await supabase
+                    .from('events')
+                    .select('*')
+                    .eq('code', code)
+                    .eq('is_active', true)
+                    .maybeSingle();
+
+                if (error) {
+                    throw new Error('Supabase DB Error: ' + error.message);
                 }
 
-                con                               log(`Event found: ${event.name} (${event.id})`);
+                if (!events) {
+                    log('No event found with code: ' + code);
+                    throw new Error('Evento no encontrado (Code invalid or inactive).');
+                }
 
-                        r i                           eventNameTi                ent.name;
-                eventHeader.style.displa                          // 3. Cargar fotos d                       const folderPath = event.folder_pa                log(`Listing files from bucket: ${even                olderPath}`);
+                const event = events;
+                log(`Event found: ${event.name} (${event.id})`);
 
-                                 error: storageError } = await supabase.storage
-                               ket)
+                // 2. Mostrar info del evento
+                eventNameTitle.textContent = event.name;
+                eventHeader.style.display = 'block';
+
+                // 3. Cargar fotos del Storage
+                const folderPath = event.folder_path;
+                log(`Listing files from bucket: ${event.bucket}, path: ${folderPath}`);
+
+                const { data: files, error: storageError } = await supabase.storage
+                    .from(event.bucket)
                     .list(folderPath, {
-                    limit: 1000,
-                                                       sortBy: { column: 'created_at', order: 'desc' }
-                                     if (storageError) {
-                    throw new Error('                    geError.message);
-                               log(`Files                         h : 0}`);
+                        limit: 1000,
+                        offset: 0,
+                        sortBy: { column: 'created_at', order: 'desc' }
+                    });
 
-                          files.lengt                           galleryGrid.innerHTML = '<div class="msg-cont                    en es                               } els                    // Filtrar placeholder
-                    const validFiles                 f.                erPlaceholder');
+                if (storageError) {
+                    throw new Error('Storage Error: ' + storageError.message);
+                }
 
-                    if (validFil                                       galleryGrid.i                    msg-container">Aún no hay fotos en este evento.</div>';
+                log(`Files found: ${files ? files.length : 0}`);
+
+                if (!files || files.length === 0) {
+                    galleryGrid.innerHTML = '<div class="msg-container">Aún no hay fotos en este evento.</div>';
+                } else {
+                    // Filtrar placeholder
+                    const validFiles = files.filter(f => f.name !== '.emptyFolderPlaceholder');
+
+                    if (validFiles.length === 0) {
+                        galleryGrid.innerHTML = '<div class="msg-container">Aún no hay fotos en este evento.</div>';
                     } else {
-                        erGallery                                     }
-                           } catch (err) {
-                log('Search failed: ' + err.message, 'erro                    rchMsg.textContent = 'No encont                        go.';
+                        renderGallery(validFiles, event);
+                    }
+                }
+
+            } catch (err) {
+                log('Search failed: ' + err.message, 'error');
+                searchMsg.textContent = 'No encontramos un evento con ese código.';
                 searchMsg.className = 'error-msg';
-                galleryGrid.innerHTM                    tainer">I                        <small style="font-size:0.75rem; o                    44                mal                   } finally                earchBtn.disabled = false;
-                sear                'BUSCAR';
+                galleryGrid.innerHTML = `<div class="msg-container">Intenta con otro código. <br><small style="font-size:0.75rem; opacity: 0.7; color:#ef4444;">${err.message}</small></div>`;
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'BUSCAR';
             }
         }
 
-        function renderGallery(fi                      galleryGrid.innerHTML = '';
-                 ering gallery...');
-            
+        function renderGallery(files, event) {
+            galleryGrid.innerHTML = '';
+            log('Rendering gallery...');
+
             // Determine folder prefix
             let folderPrefix = event.folder_path;
-            if (!folderPrefix.endsWith('/')) folderPr                     if                 ') folderPrefix = ''; // Roo                .forEach(file => {
-                           =         fix        }`;
-                
-                co            upabase.storage
-                        ent.bucket)
-                 (                        const publicUrl            l;
+            if (!folderPrefix.endsWith('/')) folderPrefix += '/';
+            if (folderPrefix === '/') folderPrefix = ''; // Root
 
-                // Detect file typ             Strict check
-                const name = file.name.t                          const isImage = /\.(jpg|jpeg|png|gif|we)              const isPdf = /\.(pdf)$/i.test(name);
-                const isAudio = /            4a|aac|flac|webm|mp4|opu                ;
-                const isText = /\.(txt|md)$/i.                  document.createElement('div');
-                      Name = 'photo-item';                    ntentHtml = '';
-                          n = '';
+            files.forEach(file => {
+                const filePath = `${folderPrefix}${file.name}`;
 
-                if (isImag                     contentHtml = `<img src="${publicUrl}" alt=                "photo-img" loading="lazy" onerror="th                s.parentNode.innerHTML='<div style=\'width:100%;height:100                -items:center;justify-content:center;b                lor:#ef4444;font-size:3rem;\'>⚠️</div>'">`;
-                    clickAction = `                ${publicUrl}', 'image')"`;
-                                                    contentHtml = `
-                         style="width:100%;height:100%;d                ection:column;align-it                ontent:center;backgroun                e;padding:20px;                           <span style="font-size:3rem;margin-bottom:10px;">📄</span>
+                const { data } = supabase.storage
+                    .from(event.bucket)
+                    .getPublicUrl(filePath);
+
+                const publicUrl = data.publicUrl;
+
+                // Detect file type by extension - Strict check
+                const name = file.name.toLowerCase();
+                const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(name);
+                const isPdf = /\.(pdf)$/i.test(name);
+                const isAudio = /\.(mp3|wav|ogg|m4a|aac|flac|webm|mp4|opus|wma)$/i.test(name);
+                const isText = /\.(txt|md)$/i.test(name);
+
+                const item = document.createElement('div');
+                item.className = 'photo-item';
+
+                let contentHtml = '';
+                let clickAction = '';
+
+                if (isImage) {
+                    contentHtml = `<img src="${publicUrl}" alt="Foto evento" class="photo-img" loading="lazy" onerror="this.onerror=null; this.parentNode.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#0f172a;color:#ef4444;font-size:3rem;\'>⚠️</div>'">`;
+                    clickAction = `onclick="openModal('${publicUrl}', 'image')"`;
+                } else if (isPdf) {
+                    contentHtml = `
+                        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1e293b;color:white;padding:20px;">
+                            <span style="font-size:3rem;margin-bottom:10px;">📄</span>
                         </div>
                     `;
                     clickAction = `onclick="window.open('${publicUrl}', '_blank')"`;
                 } else if (isAudio) {
                     contentHtml = `
-                                          ;height:100%;display:flex;flex-direction:column;align-items:ce                :center;background:#                    ng:20px;">
+                        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1e293b;color:white;padding:20px;">
                             <span style="font-size:3rem;margin-bottom:10px;">🎵</span>
                             <span style="font-size:0.9rem;text-align:center;word-break:break-all;">Audio: ${file.name}</span>
-                            <audio controls preload="none" onclick="event.stopPropagation();" style="width:100%; margin-top:15px; he                                          <source src="${publicUrl}">
-                               navegador no soporta a                              </audio>
+                            <audio controls preload="none" onclick="event.stopPropagation();" style="width:100%; margin-top:15px; height: 32px;">
+                                <source src="${publicUrl}">
+                                Tu navegador no soporta audio.
+                            </audio>
                         </div>
                     `;
                     clickAction = `onclick="window.open('${publicUrl}', '_blank')"`;
@@ -532,7 +629,8 @@
                     `;
                     clickAction = `onclick="openModal('${publicUrl}', 'text')"`;
                 } else {
-                                                        <div style="width:100%;height:100%;display:flex;                n;align-items:center;                    ackground:#1e293b;color:white;padding:20px;">
+                    contentHtml = `
+                        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1e293b;color:white;padding:20px;">
                             <span style="font-size:3rem;margin-bottom:10px;">📁</span>
                             <span style="font-size:0.9rem;text-align:center;word-break:break-all;">${file.name}</span>
                         </div>
@@ -541,9 +639,12 @@
                 }
 
                 item.innerHTML = `
-                    <div style="width:100%;                    inter;" ${clickAction}>
-                        ${contentHtml                  </div>
-                                // Add overlay download button
+                    <div style="width:100%; height:100%; cursor: pointer;" ${clickAction}>
+                        ${contentHtml}
+                    </div>
+                `;
+
+                // Add overlay download button
                 item.innerHTML += `
                      <div class="photo-overlay">
                          <button class="download-btn" onclick="event.stopPropagation(); window.open('${publicUrl}', '_blank')">
@@ -555,7 +656,7 @@
                 galleryGrid.appendChild(item);
             });
         }
-</script>
+    </script>
 </body>
 
 </html>
