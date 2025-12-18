@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Subir Foto - EventPix Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0f1115;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .hidden-input {
+            display: none;
+        }
+
+        .success-msg {
+            display: none;
+            color: #4ade80;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        .preview {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="upload-screen">
+        <h2>EventPix Demo</h2>
+        <p>Subí una foto para verla en la pantalla</p>
+
+        <label class="upload-btn">
+            📷 Tomar / Elegir Foto
+            <input type="file" accept="image/*" class="hidden-input" id="file-input">
+        </label>
+
+        <img id="preview-img" class="preview">
+    </div>
+
+    <div class="container" id="success-screen" style="display: none;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+        <h2>¡Enviada!</h2>
+        <p>Mirá la pantalla gigante 😉</p>
+        <button class="upload-btn" onclick="location.reload()" style="margin-top: 30px;">Enviar otra</button>
+    </div>
+
+    <script>
+        // Use the same credentials as ver-fotos.html
+        const SUPABASE_URL = 'https://qzyjblkfrlkwbuljssco.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6eWpibGtmcmxrd2J1bGpzc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzOTk5NDEsImV4cCI6MjA3OTk3NTk0MX0.6KuO6c2qLpZ0jZFH6CPk2g1sDLc5IX5ARA_m89tZKFE';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session');
+
+        const fileInput = document.getElementById('file-input');
+        const previewImg = document.getElementById('preview-img');
+        const uploadScreen = document.getElementById('upload-screen');
+        const successScreen = document.getElementById('success-screen');
+
+        if (!sessionId) {
+            alert('Error: No session ID provided. Escanea el QR nuevamente.');
+        }
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Resize image to max 800px to ensure it fits in Supabase Realtime payload
+            const MAX_WIDTH = 800;
+            const MAX_HEIGHT = 800;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = async () => {
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Compress to JPEG 70% quality
+                    const resizedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+                    // Show preview
+                    previewImg.src = resizedBase64;
+                    previewImg.style.display = 'block';
+
+                    try {
+                        const channel = supabase.channel(`demo-room-${sessionId}`);
+
+                        await channel.subscribe(async (status) => {
+                            if (status === 'SUBSCRIBED') {
+                                try {
+                                    await channel.send({
+                                        type: 'broadcast',
+                                        event: 'new-photo',
+                                        payload: { image: resizedBase64 }
+                                    });
+
+                                    // Visual success
+                                    setTimeout(() => {
+                                        uploadScreen.style.display = 'none';
+                                        successScreen.style.display = 'block';
+                                    }, 500);
+                                } catch (sendError) {
+                                    console.error('Error sending:', sendError);
+                                    alert('Error al enviar. La imagen puede ser muy pesada o hubo un error de conexión.');
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error connecting:', error);
+                        alert('Error de conexión. Intenta de nuevo.');
+                    }
+                };
+                img.src = event.target.result;
+            };
+        });
+    </script>
+</body>
+
+</html>

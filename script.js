@@ -38,4 +38,26 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
         observer.observe(el);
     });
+
+    // --- Demo Section Logic ---
+    // La sección de demostración ahora utiliza un iframe que apunta directamente a la aplicación principal.
+    // Se ha eliminado la lógica JS personalizada para evitar conflictos.
+    const demoResetBtn = document.getElementById('demo-reset-btn');
+    if (demoResetBtn) {
+        demoResetBtn.addEventListener('click', () => {
+            const iframe = document.querySelector('.demo-screen-content iframe');
+            if (iframe) {
+                // Reload iframe
+                iframe.src = iframe.src;
+
+                const icon = demoResetBtn.querySelector('i');
+                if (icon) {
+                    icon.style.transition = 'transform 0.5s';
+                    icon.style.transform = 'rotate(180deg)';
+                    setTimeout(() => icon.style.transform = 'rotate(0deg)', 500);
+                }
+            }
+        });
+    }
+
 });

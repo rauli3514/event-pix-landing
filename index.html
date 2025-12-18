@@ -92,6 +92,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -127,9 +129,6 @@
                     <!-- LINK WHATSAPP: Ya configurado con tu número -->
                     <a href="https://wa.me/543624547382?text=Hola!%20Me%20interesa%20EventPix%20para%20mi%20evento"
                         class="btn btn-primary"><i class="fab fa-whatsapp"></i> Quiero EventPix en mi evento</a>
-                    <!-- LINK DEMO: Apunta al wall demo -->
-                    <a href="https://rauli3514.github.io/event-pix/default/display" class="btn btn-secondary"
-                        target="_blank" rel="noopener noreferrer">Ver muro en vivo</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -331,27 +330,38 @@
     </section>
 
     <!-- Demo Section -->
+    <!-- Demo Section -->
     <section id="demo" class="section demo-section">
         <div class="container">
             <h2 class="section-title">Probá EventPix ahora mismo</h2>
             <p class="section-subtitle">
-                Entrá a una versión demo para ver cómo se sienten tus invitados al subir fotos y cómo se ve el muro en
-                vivo.
+                Viví la experiencia completa: escaneá el QR, subí una foto y mirala aparecer en pantalla en tiempo real.
             </p>
-            <div class="demo-buttons">
-                <!-- LINK DEMO: Pantalla de invitados (subir fotos) -->
-                <a href="https://rauli3514.github.io/event-pix/default" class="btn btn-demo" target="_blank"
-                    rel="noopener noreferrer">
-                    <i class="fas fa-camera"></i> Probar subir fotos al muro
-                </a>
-                <!-- LINK DEMO: Muro en vivo -->
-                <a href="https://rauli3514.github.io/event-pix/default/display" class="btn btn-demo" target="_blank"
-                    rel="noopener noreferrer">
-                    <i class="fas fa-desktop"></i> Ver muro demo de EventPix
-                </a>
+
+            <div class="demo-display">
+                <div class="demo-bg-pattern"></div>
+
+                <div class="demo-header">
+                    <span class="demo-branding">Prueba Gratis EventPix</span>
+                    <div class="demo-controls">
+                        <button id="demo-reset-btn" class="demo-control-btn" title="Generar nueva sesión">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-screen-content" style="padding: 0; overflow: hidden; background: black;">
+                    <!-- Sincronización con la App real -->
+                    <iframe src="https://app.event-pix.com.ar/?/default/display"
+                        style="width: 100%; height: 100%; border: none;" title="EventPix Demo"
+                        allow="camera; microphone; fullscreen; display-capture">
+                    </iframe>
+                </div>
             </div>
-            <p class="demo-note">Esto es solo una demo. Los eventos reales tienen su propio código y diseño
-                personalizado.</p>
+
+            <p class="demo-note">
+                Esta prueba utiliza una sesión única enlazada a tu dispositivo. Solo vos verás las fotos que se suban.
+            </p>
         </div>
     </section>
 
@@ -442,7 +452,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2.3"></script>
 </body>
 
 </html>

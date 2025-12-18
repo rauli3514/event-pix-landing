@@ -9,6 +9,11 @@
     <!-- Meta Tags SEO -->
     <meta name="description" content="Ingresa el código de tu evento y descarga tus fotos al instante con EventPix.">
 
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
@@ -227,6 +232,20 @@
             font-weight: 600;
             font-size: 1.1rem;
         }
+
+        .modal-text-content {
+            background: white;
+            color: #1e293b;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 90%;
+            width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 1rem;
+        }
     </style>
 </head>
 
@@ -290,8 +309,9 @@
     <!-- Modal -->
     <div id="photo-modal" class="modal">
         <span class="modal-close">&times;</span>
-        <img class="modal-img" id="modal-image">
-        <a href="#" class="modal-download" id="modal-download-btn" download>Descargar Foto Original</a>
+        <img class="modal-img" id="modal-image" style="display:none;">
+        <div id="modal-text" class="modal-text-content" style="display:none;"></div>
+        <a href="#" class="modal-download" id="modal-download-btn" download target="_blank">Descargar</a>
     </div>
 
     <!-- Footer Compacto -->
@@ -302,7 +322,8 @@
 
             <!-- Logo / Copyright -->
             <div style="font-size: 0.9rem; color: #64748b;">
-                &copy; 2025 <strong>EventPix</strong> by Tecno Eventos.
+                &copy; 2025 <strong>EventPix</strong> by Tecno Eventos. <span
+                    style="font-size:0.7em; opacity:0.5;">v2.3</span>
             </div>
 
             <!-- Enlaces Horizontales -->
@@ -323,155 +344,218 @@
         </div>
     </footer>
 
-    <script>
-        // Configuración Supabase
-        const SUPABASE_URL = 'https://qzyjblkfrlkwbuljssco.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6eWpibGtmcmxrd2J1bGpzc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzOTk5NDEsImV4cCI6MjA3OTk3NTk0MX0.6KuO6c2qLpZ0jZFH6CPk2g1sDLc5IX5ARA_m89tZKFE';
+<script>
+    // Logging helper
+    function log(msg, type = 'info') {
+        const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
+        const message = `[EventPix ${timestamp}] ${msg}`;
+        console.log(message);
+        if (type === 'error') console.error(message);
+    }
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    log('Script starting executi    
 
-        // Elementos DOM
-        const searchBtn = document.getElementById('search-btn');
-        const codeInput = document.getElementById('event-code-input');
-        const searchMsg = document.getElementById('search-msg');
-        const galleryGrid = document.getElementById('gallery-grid');
-        const eventHeader = document.getElementById('event-header');
-        const eventNameTitle = document.getElementById('event-name');
+        // Configuración    e
+        const SUPABASE_URL = 'https://qzyjblkfrlkwbuljssco.supa    ;
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6eWpibGtmcmxrd2J1bGpzc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzOTk5NDEsImV4cCI6MjA3OTk3NTk0MX0.6KuO6c2qLpZ0jZFH6CPk2g1sDLc5IX5ARA_m8    
 
-        // Modal elements
-        const modal = document.getElementById('photo-modal');
-        const modalImg = document.getElementById('modal-image');
-        const modalDownload = document.getElementById('modal-download-btn');
-        const modalClose = document.querySelector('.modal-close');
+        let s    
 
-        // Buscar evento
-        async function searchEvent() {
-            const code = codeInput.value.trim().toUpperCase();
-
-            if (!code) {
-                searchMsg.textContent = 'Por favor ingresa un código.';
-                searchMsg.className = 'error-msg';
-                return;
-            }
-
-            searchBtn.disabled = true;
-            searchBtn.textContent = 'BUSCANDO...';
-            searchMsg.textContent = '';
-            galleryGrid.innerHTML = '<div class="msg-container">Cargando fotos...</div>';
-            eventHeader.style.display = 'none';
-
+        // 1. Verificar Supabase Wrapper
+        if         ow.supabase === 'undefined             log('CRITICAL: Supabase Glob        ssing!', 'error');
+            alert('Error cr            o cargar la librería de conexión (Supabase). Por favor reca            verifica tu conexión.');
+        } else {
+            // 2. Crear Cliente
             try {
-                // 1. Buscar evento en DB
-                const { data: events, error } = await supabase
-                    .from('events')
-                    .select('*')
-                    .eq('code', code)
-                    .eq('is_active', true)
-                    .single();
-
-                if (error || !events) {
-                    throw new Error('Evento no encontrado o código incorrecto.');
+                if (typeof window.supab             !== 'fu                       throw new Error(        base.c            ot a function');
                 }
-
-                const event = events;
-
-                // 2. Mostrar info del evento
-                eventNameTitle.textContent = event.name;
-                eventHeader.style.display = 'block';
-
-                // 3. Cargar fotos del Storage
-                const { data: files, error: storageError } = await supabase.storage
-                    .from(event.bucket)
-                    .list(event.folder_path, {
-                        limit: 100,
-                        offset: 0,
-                        sortBy: { column: 'created_at', order: 'desc' }
-                    });
-
-                if (storageError) throw storageError;
-
-                if (!files || files.length === 0) {
-                    galleryGrid.innerHTML = '<div class="msg-container">Aún no hay fotos en este evento.</div>';
-                } else {
-                    // Filtrar placeholder
-                    const validFiles = files.filter(f => f.name !== '.emptyFolderPlaceholder');
-
-                    if (validFiles.length === 0) {
-                        galleryGrid.innerHTML = '<div class="msg-container">Aún no hay fotos en este evento.</div>';
-                    } else {
-                        renderGallery(validFiles, event);
-                    }
-                }
-
-            } catch (err) {
-                console.error(err);
-                searchMsg.textContent = 'No encontramos un evento con ese código.';
-                searchMsg.className = 'error-msg';
-                galleryGrid.innerHTML = '<div class="msg-container">Intenta con otro código.</div>';
-            } finally {
-                searchBtn.disabled = false;
-                searchBtn.textContent = 'BUSCAR';
+                
+                     = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON                  log('Supabase client created successfully');
+            } catch               r            client: ' + e.message, 'error');
+                alert('Error Inicializand            sage);
             }
         }
 
-        function renderGallery(files, event) {
-            galleryGrid.innerHTML = '';
+        // El                const             ment.getElementById('search-btn');
+        const codeInput = d            ntById('event-code-input');
+        const search            etElemen        h-m          const galleryGr        t.getElementById('gallery-grid');
+        const eventHead        t.getElementById('event-header');
+        const eventNameTitle         etElementById('event-name');
 
-            files.forEach(file => {
-                const filePath = `${event.folder_path}/${file.name}`;
-                const { data } = supabase.storage
-                    .from(event.bucket)
-                    .getPublicUrl(filePath);
+        // Modal elements
+          modal = document.getElementById('photo-modal');
+        cons         document.getElementById('modal-image');
+        const modalD        cument.getElementById('modal-download-btn');
+        const moda        ument.querySelecto        ose');
+        const modalText = document.getElementBy        xt');
 
-                const publicUrl = data.publicUrl;
+        if (!searchBtn || !codeInput) {
+                  cal elements not found', 'error');
+            alert('Error: No se en        s elementos de búsqueda en la página.');
+        } else {
+         / Listeners
+            searchBtn.addEventListener('click'        t);
 
-                const item = document.createElement('div');
-                item.className = 'photo-item';
+            codeInput.addEv            press', (e) => {
+                if (e.key ==            hEvent()          }           log('Liste        d');
+        }
+
+        // Mobile menu
+        cons        Btn = document.querySelector('.mobile-menu-btn')            bileMenuBtn) {
+            mobileMenuB        isten        () => {
+               ument.querySelector('.nav-links').classList.toggle('active');
+                    }
+
+        //            
+        if (modalClose) {
+            modalClos                click', () => {
+                modal.style.display = 'none';
+                           if                   modal.add        r('click', (e) =>               if (e.target === modal) {
+                                 ay = 'none';
+                }            
+                      Modal = async            ype) {
+            if (!modal) return;
+                     modalImg.style.display                     dalText.style.display = 'none'                ow            ;
+
+         f (        age') {
+                modalImg. src = url;
+               alImg.style.display              style.display = 'flex';
+                     pe === 'text') {
+                m            tent = 'Cargando mensaje...               modalText.style.displ                          modal.styl                
+                try {
+                           nse = await fetch(url);
+                   (response.ok) {
+                             t = await response.text();
+                                    ntent = text;
+                    }                            modalText.textConte                r el m                          }
+                } catch (e)                    console.error(e);
+                         .textContent = 'Error al cargar el m                                    }
+        };
+                         archEvent                        archEvent = searchEvent;
+
+        // Buscar evento
+                        hE                 log('searchEv                     const code = code                    erCase();
+            log(`Searching for event code: ${                                        earn        favor ingresa un código.';
+             earchMsg.className = 'error-msg';
+            return;
+                       searchBtn.disabled = t             searchBtn.textContent = 'BUSCANDO...';
+                       ontent = '';
+            galleryGrid.innerH            s="msg-contai                ..</div>';
+            eventHeader.style.display = 'none                        if (!supabase) {
+                          client n             'e                    searchMsg.textConte            onexión. Recarga la página.';
+                     .disabled = false;
+                     .textContent = 'BUSCAR';
+                return;
+            }
+
+            tr                // 1. Buscar evento en DB
+                   erying                .');
+                const                or } = await supabase
+                                                    .select('*')
+                                                                      e)
+                              ;
+
+                                             throw new Err                     + error.message)                                                 !events) {
+                    log('No event found with                                     encontrado (Co                    ');
+                }
+
+                con                               log(`Event found: ${event.name} (${event.id})`);
+
+                        r i                           eventNameTi                ent.name;
+                eventHeader.style.displa                          // 3. Cargar fotos d                       const folderPath = event.folder_pa                log(`Listing files from bucket: ${even                olderPath}`);
+
+                                 error: storageError } = await supabase.storage
+                               ket)
+                    .list(folderPath, {
+                    limit: 1000,
+                                                       sortBy: { column: 'created_at', order: 'desc' }
+                                     if (storageError) {
+                    throw new Error('                    geError.message);
+                               log(`Files                         h : 0}`);
+
+                          files.lengt                           galleryGrid.innerHTML = '<div class="msg-cont                    en es                               } els                    // Filtrar placeholder
+                    const validFiles                 f.                erPlaceholder');
+
+                    if (validFil                                       galleryGrid.i                    msg-container">Aún no hay fotos en este evento.</div>';
+                    } else {
+                        erGallery                                     }
+                           } catch (err) {
+                log('Search failed: ' + err.message, 'erro                    rchMsg.textContent = 'No encont                        go.';
+                searchMsg.className = 'error-msg';
+                galleryGrid.innerHTM                    tainer">I                        <small style="font-size:0.75rem; o                    44                mal                   } finally                earchBtn.disabled = false;
+                sear                'BUSCAR';
+            }
+        }
+
+        function renderGallery(fi                      galleryGrid.innerHTML = '';
+                 ering gallery...');
+            
+            // Determine folder prefix
+            let folderPrefix = event.folder_path;
+            if (!folderPrefix.endsWith('/')) folderPr                     if                 ') folderPrefix = ''; // Roo                .forEach(file => {
+                           =         fix        }`;
+                
+                co            upabase.storage
+                        ent.bucket)
+                 (                        const publicUrl            l;
+
+                // Detect file typ             Strict check
+                const name = file.name.t                          const isImage = /\.(jpg|jpeg|png|gif|we)              const isPdf = /\.(pdf)$/i.test(name);
+                const isAudio = /            4a|aac|flac|webm|mp4|opu                ;
+                const isText = /\.(txt|md)$/i.                  document.createElement('div');
+                      Name = 'photo-item';                    ntentHtml = '';
+                          n = '';
+
+                if (isImag                     contentHtml = `<img src="${publicUrl}" alt=                "photo-img" loading="lazy" onerror="th                s.parentNode.innerHTML='<div style=\'width:100%;height:100                -items:center;justify-content:center;b                lor:#ef4444;font-size:3rem;\'>⚠️</div>'">`;
+                    clickAction = `                ${publicUrl}', 'image')"`;
+                                                    contentHtml = `
+                         style="width:100%;height:100%;d                ection:column;align-it                ontent:center;backgroun                e;padding:20px;                           <span style="font-size:3rem;margin-bottom:10px;">📄</span>
+                        </div>
+                    `;
+                    clickAction = `onclick="window.open('${publicUrl}', '_blank')"`;
+                } else if (isAudio) {
+                    contentHtml = `
+                                          ;height:100%;display:flex;flex-direction:column;align-items:ce                :center;background:#                    ng:20px;">
+                            <span style="font-size:3rem;margin-bottom:10px;">🎵</span>
+                            <span style="font-size:0.9rem;text-align:center;word-break:break-all;">Audio: ${file.name}</span>
+                            <audio controls preload="none" onclick="event.stopPropagation();" style="width:100%; margin-top:15px; he                                          <source src="${publicUrl}">
+                               navegador no soporta a                              </audio>
+                        </div>
+                    `;
+                    clickAction = `onclick="window.open('${publicUrl}', '_blank')"`;
+                } else if (isText) {
+                    contentHtml = `
+                        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1e293b;color:white;padding:20px;">
+                            <span style="font-size:3rem;margin-bottom:10px;">💬</span>
+                            <span style="font-size:0.9rem;text-align:center;word-break:break-all;">Mensaje: ${file.name}</span>
+                        </div>
+                    `;
+                    clickAction = `onclick="openModal('${publicUrl}', 'text')"`;
+                } else {
+                                                        <div style="width:100%;height:100%;display:flex;                n;align-items:center;                    ackground:#1e293b;color:white;padding:20px;">
+                            <span style="font-size:3rem;margin-bottom:10px;">📁</span>
+                            <span style="font-size:0.9rem;text-align:center;word-break:break-all;">${file.name}</span>
+                        </div>
+                    `;
+                    clickAction = `onclick="window.open('${publicUrl}', '_blank')"`;
+                }
+
                 item.innerHTML = `
-                    <img src="${publicUrl}" alt="Foto evento" class="photo-img" loading="lazy">
-                    <div class="photo-overlay">
-                        <button class="download-btn" onclick="event.stopPropagation(); window.open('${publicUrl}', '_blank')">
+                    <div style="width:100%;                    inter;" ${clickAction}>
+                        ${contentHtml                  </div>
+                                // Add overlay download button
+                item.innerHTML += `
+                     <div class="photo-overlay">
+                         <button class="download-btn" onclick="event.stopPropagation(); window.open('${publicUrl}', '_blank')">
                             ⬇ Descargar
                         </button>
                     </div>
                 `;
 
-                // Abrir modal al hacer click
-                item.addEventListener('click', () => openModal(publicUrl));
-
                 galleryGrid.appendChild(item);
             });
         }
-
-        // Modal functions
-        function openModal(url) {
-            modalImg.src = url;
-            modalDownload.href = url;
-            modal.style.display = 'flex';
-        }
-
-        modalClose.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        // Listeners
-        searchBtn.addEventListener('click', searchEvent);
-
-        codeInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchEvent();
-        });
-
-        // Mobile menu
-        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-    </script>
+</script>
 </body>
 
 </html>

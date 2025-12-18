@@ -385,14 +385,50 @@
                 </div>
 
                 <div id="management-area" style="display: none;">
+
+                    <!-- 2.5 EDITAR EVENTO -->
+                    <div id="edit-event-area"
+                        style="margin-top: 30px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top: 0;">Modificar datos del evento</h3>
+                        <div class="form-row">
+                            <div>
+                                <label style="font-size: 0.8rem; font-weight: 600;">Nombre</label>
+                                <input type="text" id="edit-event-name">
+                            </div>
+                            <div>
+                                <label style="font-size: 0.8rem; font-weight: 600;">Código</label>
+                                <input type="text" id="edit-event-code">
+                            </div>
+                        </div>
+                        <div class="form-row" style="margin-top: 15px;">
+                            <div>
+                                <label style="font-size: 0.8rem; font-weight: 600;">Carpeta (Ruta en Storage)</label>
+                                <input type="text" id="edit-event-folder">
+                                <small style="display: block; color: #ef4444; font-size: 0.75rem; margin-top: 4px;">⚠
+                                    ¡Cuidado! Si cambias esto, dejarás de ver las fotos antiguas.</small>
+                            </div>
+                            <div style="display: flex; align-items: center; padding-top: 20px;">
+                                <input type="checkbox" id="edit-event-active"
+                                    style="width: 20px; height: 20px; margin-right: 10px;">
+                                <label for="edit-event-active" style="cursor: pointer;">Evento Activo (Visible)</label>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: right;">
+                            <button id="update-event-btn" class="btn-primary"
+                                style="background: var(--text-main);">Guardar cambios</button>
+                        </div>
+                        <p id="update-event-msg" class="message" style="text-align: right;"></p>
+                    </div>
+
                     <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
 
                     <!-- 3. Subir fotos -->
                     <div>
                         <h3>Subir fotos al álbum</h3>
                         <div class="form-row" style="align-items: center;">
-                            <input type="file" id="photo-input" multiple accept="image/*">
-                            <button id="upload-photos-btn" class="btn-primary">Subir fotos</button>
+                            <input type="file" id="photo-input" multiple
+                                accept="image/*,application/pdf,audio/*,video/*,text/plain">
+                            <button id="upload-photos-btn" class="btn-primary">Subir archivos</button>
                         </div>
                         <p id="upload-photos-message" class="message"></p>
                     </div>
@@ -412,13 +448,33 @@
                     </div>
 
                     <!-- 5. Eliminar álbum completo -->
+                    <!-- 5. Eliminar (Opciones Avanzadas) -->
                     <div class="danger-zone">
-                        <h3>Eliminar álbum completo</h3>
-                        <p style="margin-bottom: 15px; color: #7f1d1d;">Esta acción eliminará todas las fotos de este
-                            álbum en Supabase Storage y el registro del evento. <strong>No se puede deshacer.</strong>
-                        </p>
-                        <button id="delete-album-btn" class="btn-danger">Eliminar álbum</button>
-                        <p id="delete-album-message" class="message"></p>
+                        <h3>Zona de Peligro</h3>
+
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color:#b91c1c; margin-bottom: 5px; font-size: 1rem;">Opción 1: Borrar solo
+                                registro del evento</h4>
+                            <p style="margin-bottom: 10px; font-size: 0.9rem; color: #7f1d1d;">Elimina el acceso al
+                                evento desde la app, pero <strong>MANTIENE las fotos</strong> en el Storage (útil si hay
+                                error en el evento pero quieres salvar las fotos).</p>
+                            <button id="delete-event-only-btn" class="btn-secondary"
+                                style="border: 1px solid #fecaca; color: #b91c1c; background: #fff;">Borrar solo evento
+                                (mantener fotos)</button>
+                        </div>
+
+                        <hr style="border-top: 1px solid #fecaca; margin: 20px 0; opacity: 0.5;">
+
+                        <div>
+                            <h4 style="color:#b91c1c; margin-bottom: 5px; font-size: 1rem;">Opción 2: Borrar TODO
+                                (Evento + Fotos)</h4>
+                            <p style="margin-bottom: 10px; font-size: 0.9rem; color: #7f1d1d;">Elimina el evento Y
+                                TAMBIÉN <strong>TODAS LAS FOTOS</strong> asociadas. <br><strong>Esta acción no se puede
+                                    deshacer.</strong></p>
+                            <button id="delete-full-btn" class="btn-danger">Borrar evento y todas sus fotos</button>
+                        </div>
+
+                        <p id="delete-msg" class="message"></p>
                     </div>
                 </div>
             </section>
@@ -444,6 +500,7 @@
             const isAuth = sessionStorage.getItem('eventpix_admin_auth');
             if (isAuth === 'true') {
                 showAdmin();
+                loadEventsOptions(); // Cargar eventos solo si está logueado
             }
         }
 
@@ -494,16 +551,30 @@
         const reloadEventsBtn = document.getElementById('reload-events-btn');
         const uploadPhotosBtn = document.getElementById('upload-photos-btn');
         const loadPhotosBtn = document.getElementById('load-photos-btn');
-        const deleteAlbumBtn = document.getElementById('delete-album-btn');
+        const deleteAlbumBtn = null; // Deprecated
+        const deleteEventOnlyBtn = document.getElementById('delete-event-only-btn');
+        const deleteFullBtn = document.getElementById('delete-full-btn');
+        const updateEventBtn = document.getElementById('update-event-btn');
 
         const createEventMsg = document.getElementById('create-event-message');
         const eventsLoadMsg = document.getElementById('events-load-message');
         const uploadPhotosMsg = document.getElementById('upload-photos-message');
-        const deleteAlbumMsg = document.getElementById('delete-album-message');
+        const deleteMsg = document.getElementById('delete-msg');
+        const updateEventMsg = document.getElementById('update-event-msg');
 
         const selectedEventInfo = document.getElementById('selected-event-info');
         const managementArea = document.getElementById('management-area');
         const photosGallery = document.getElementById('photos-gallery');
+
+        // ==========================================
+        // UTILS
+        // ==========================================
+        function sanitizeString(str) {
+            return str
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "") // Remove accents
+                .replace(/[^a-zA-Z0-9._-]/g, "_"); // Replace non-alphanumeric with underscore
+        }
 
         // ==========================================
         // 4.1 CARGAR EVENTOS AL INICIAR
@@ -546,9 +617,12 @@
         createEventBtn.addEventListener('click', async () => {
             const name = document.getElementById('new-event-name').value.trim();
             const code = document.getElementById('new-event-code').value.trim().toUpperCase();
-            const folder = document.getElementById('new-event-folder').value.trim();
+            let folder = document.getElementById('new-event-folder').value.trim();
             const bucket = document.getElementById('new-event-bucket').value.trim();
             const isActive = document.getElementById('new-event-active').checked;
+
+            // Sanitize folder path automatically
+            folder = sanitizeString(folder);
 
             createEventMsg.textContent = '';
             createEventMsg.className = 'message';
@@ -560,8 +634,27 @@
                 return;
             }
 
+            // Validación de carpeta única para evitar mezclar fotos
             createEventBtn.disabled = true;
-            createEventBtn.textContent = 'Creando...';
+            createEventBtn.textContent = 'Verificando...';
+
+            try {
+                const { data: existingFolder } = await _supabase
+                    .from('events')
+                    .select('id')
+                    .eq('folder_path', folder)
+                    .maybeSingle();
+
+                if (existingFolder) {
+                    createEventMsg.textContent = `Error: Ya existe un evento usando la carpeta "${folder}". Usa otro nombre de carpeta para no mezclar fotos.`;
+                    createEventMsg.className = 'message error';
+                    createEventBtn.disabled = false;
+                    createEventBtn.textContent = 'Crear evento';
+                    return;
+                }
+            } catch (checkErr) {
+                console.warn("No se pudo verificar carpeta única", checkErr);
+            }
 
             try {
                 const { data, error } = await _supabase
@@ -604,8 +697,10 @@
             const selectedId = eventSelect.value;
 
             // Limpiar estados anteriores
+            // Limpiar estados anteriores
             uploadPhotosMsg.textContent = '';
-            deleteAlbumMsg.textContent = '';
+            deleteMsg.textContent = '';
+            updateEventMsg.textContent = '';
             photosGallery.innerHTML = '';
 
             if (!selectedId) {
@@ -649,6 +744,12 @@
                 selectedEventInfo.style.display = 'grid';
                 managementArea.style.display = 'block';
 
+                // Llenar formulario de edición
+                document.getElementById('edit-event-name').value = currentEvent.name;
+                document.getElementById('edit-event-code').value = currentEvent.code;
+                document.getElementById('edit-event-folder').value = currentEvent.folder_path;
+                document.getElementById('edit-event-active').checked = currentEvent.is_active;
+
             } catch (e) {
                 console.error("Error parseando datos del evento", e);
             }
@@ -685,8 +786,14 @@
 
             try {
                 for (const file of files) {
+                    // Sanitize filename
+                    const cleanFileName = sanitizeString(file.name);
+
+                    // Sanitize folder path on the fly just in case event record has dirty path
+                    const cleanFolderPath = sanitizeString(currentEvent.folder_path);
+
                     // Construir ruta: carpeta/nombreArchivo
-                    const filePath = `${currentEvent.folder_path}/${file.name}`;
+                    const filePath = `${cleanFolderPath}/${cleanFileName}`;
 
                     const { data, error } = await _supabase.storage
                         .from(currentEvent.bucket)
@@ -697,6 +804,8 @@
 
                     if (error) {
                         console.error(`Error subiendo ${file.name}:`, error);
+                        // Save last error to show details
+                        window.lastUploadError = error;
                         errorCount++;
                     } else {
                         successCount++;
@@ -708,7 +817,11 @@
                     uploadPhotosMsg.className = 'message success';
                     fileInput.value = ''; // Limpiar input
                 } else {
-                    uploadPhotosMsg.textContent = `Se subieron ${successCount} fotos. Hubo error en ${errorCount} archivos. Revisá la consola.`;
+                    let errorDetails = '';
+                    if (window.lastUploadError) {
+                        errorDetails = ` (Último error: ${window.lastUploadError.message || JSON.stringify(window.lastUploadError)})`;
+                    }
+                    uploadPhotosMsg.textContent = `Se subieron ${successCount} fotos. Hubo error en ${errorCount} archivos.${errorDetails}`;
                     uploadPhotosMsg.className = 'message error';
                 }
 
@@ -760,8 +873,23 @@
                         const card = document.createElement('div');
                         card.className = 'photo-card';
 
+                        const isImage = file.metadata?.mimetype?.startsWith('image/') || /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name);
+                        const isPdf = /\.(pdf)$/i.test(file.name);
+                        const isAudio = /\.(mp3|wav|ogg|m4a|aac|flac|webm|mp4)$/i.test(file.name);
+
+                        let previewHtml = '';
+                        if (isImage) {
+                            previewHtml = `<img src="${publicUrlData.publicUrl}" alt="${file.name}" class="photo-thumb" loading="lazy" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'photo-thumb\' style=\'display:flex;align-items:center;justify-content:center;font-size:2rem;color:#94a3b8;\'>⚠️</div>'">`;
+                        } else if (isPdf) {
+                            previewHtml = `<div class="photo-thumb" style="display:flex;align-items:center;justify-content:center;font-size:3rem;background:#fef2f2;color:#ef4444;">📄</div>`;
+                        } else if (isAudio) {
+                            previewHtml = `<div class="photo-thumb" style="display:flex;align-items:center;justify-content:center;font-size:3rem;background:#f0f9ff;color:#0ea5e9;">🎵</div>`;
+                        } else {
+                            previewHtml = `<div class="photo-thumb" style="display:flex;align-items:center;justify-content:center;font-size:3rem;color:#64748b;">📁</div>`;
+                        }
+
                         card.innerHTML = `
-                            <img src="${publicUrlData.publicUrl}" alt="${file.name}" class="photo-thumb" loading="lazy">
+                            ${previewHtml}
                             <div class="photo-details">
                                 <div class="photo-name" title="${file.name}">${file.name}</div>
                                 <a href="${publicUrlData.publicUrl}" target="_blank" download="${file.name}" class="btn-download">Descargar</a>
@@ -783,17 +911,111 @@
         // ==========================================
         // 4.6 ELIMINAR ÁLBUM COMPLETO
         // ==========================================
-        deleteAlbumBtn.addEventListener('click', async () => {
+        // ==========================================
+        // 4.6 GESTIÓN DE EDICIÓN Y BORRADO
+        // ==========================================
+
+        // --- ACTUALIZAR EVENTO ---
+        updateEventBtn.addEventListener('click', async () => {
             if (!currentEvent) return;
 
-            const confirmDelete = window.confirm(`¿Seguro que querés eliminar el álbum "${currentEvent.name}"?\n\nESTO BORRARÁ TODAS LAS FOTOS Y EL EVENTO.\n\nEsta acción no se puede deshacer.`);
+            const name = document.getElementById('edit-event-name').value.trim();
+            const code = document.getElementById('edit-event-code').value.trim().toUpperCase();
+            let folder = document.getElementById('edit-event-folder').value.trim();
+            const isActive = document.getElementById('edit-event-active').checked;
 
+            // Sanitize folder
+            const cleanFolder = sanitizeString(folder);
+            if (cleanFolder !== folder) {
+                if (!confirm(`El nombre de la carpeta contiene caracteres inválidos. Se cambiará a: "${cleanFolder}". \n\n¿Confirmar?`)) {
+                    updateEventBtn.disabled = false;
+                    updateEventBtn.textContent = 'Guardar cambios';
+                    return;
+                }
+                folder = cleanFolder;
+                document.getElementById('edit-event-folder').value = folder;
+            }
+
+            if (!name || !code || !folder) {
+                updateEventMsg.textContent = 'Todos los campos son obligatorios.';
+                updateEventMsg.className = 'message error';
+                return;
+            }
+
+            updateEventBtn.disabled = true;
+            updateEventBtn.textContent = 'Guardando...';
+            updateEventMsg.textContent = '';
+
+            try {
+                const { error } = await _supabase
+                    .from('events')
+                    .update({
+                        name: name,
+                        code: code,
+                        folder_path: folder,
+                        is_active: isActive
+                    })
+                    .eq('id', currentEvent.id);
+
+                if (error) throw error;
+
+                updateEventMsg.textContent = 'Cambios guardados correctamente.';
+                updateEventMsg.className = 'message success';
+
+                // Actualizar objeto actual y UI
+                currentEvent.name = name;
+                currentEvent.code = code;
+                currentEvent.folder_path = folder;
+                currentEvent.is_active = isActive;
+
+                // Actualizar select dataset también (un poco hacky, mejor recargar)
+                // Pero para feedback inmediato sirve:
+                const option = eventSelect.options[eventSelect.selectedIndex];
+                option.text = `${name} (${code})`;
+                option.dataset.event = JSON.stringify(currentEvent);
+
+            } catch (error) {
+                console.error('Error al actualizar:', error);
+                updateEventMsg.textContent = 'Error: ' + error.message;
+                updateEventMsg.className = 'message error';
+            } finally {
+                updateEventBtn.disabled = false;
+                updateEventBtn.textContent = 'Guardar cambios';
+            }
+        });
+
+        // --- BORRAR SOLO EVENTO ---
+        deleteEventOnlyBtn.addEventListener('click', async () => {
+            if (!currentEvent) return;
+            if (!confirm(`¿Borrar SOLO el evento "${currentEvent.name}"?\nLas fotos quedarán en el storage pero el evento desaparecerá de la app.`)) return;
+
+            deleteEventOnlyBtn.disabled = true;
+            deleteMsg.textContent = 'Borrando evento...';
+
+            try {
+                const { error } = await _supabase.from('events').delete().eq('id', currentEvent.id);
+                if (error) throw error;
+
+                alert('Evento borrado. Las fotos permanecen intactas.');
+                location.reload();
+            } catch (error) {
+                deleteMsg.textContent = 'Error: ' + error.message;
+                deleteMsg.className = 'message error';
+                deleteEventOnlyBtn.disabled = false;
+            }
+        });
+
+        // --- BORRAR TODO ---
+        deleteFullBtn.addEventListener('click', async () => {
+            if (!currentEvent) return;
+
+            const confirmDelete = window.confirm(`¡PELIGRO!\n\nEstás a punto de borrar "${currentEvent.name}" Y TODAS SUS FOTOS.\n\n¿Estás 100% seguro?`);
             if (!confirmDelete) return;
 
-            deleteAlbumBtn.disabled = true;
-            deleteAlbumBtn.textContent = 'Eliminando...';
-            deleteAlbumMsg.textContent = 'Eliminando archivos...';
-            deleteAlbumMsg.className = 'message';
+            deleteFullBtn.disabled = true;
+            deleteFullBtn.textContent = 'Eliminando...';
+            deleteMsg.textContent = 'Eliminando archivos...';
+            deleteMsg.className = 'message';
 
             try {
                 // 1. Listar todos los archivos para obtener sus rutas
@@ -833,18 +1055,15 @@
                 selectedEventInfo.style.display = 'none';
                 managementArea.style.display = 'none';
                 photosGallery.innerHTML = '';
-                eventSelect.value = '';
-
-                // Recargar lista de eventos
-                await loadEventsOptions();
+                alert('Evento y fotos eliminados correctamente.');
+                location.reload();
 
             } catch (error) {
                 console.error('Error eliminando álbum:', error);
-                deleteAlbumMsg.textContent = 'Error al eliminar: ' + error.message;
-                deleteAlbumMsg.className = 'message error';
-            } finally {
-                deleteAlbumBtn.disabled = false;
-                deleteAlbumBtn.textContent = 'Eliminar álbum';
+                deleteMsg.textContent = 'Error: ' + error.message;
+                deleteMsg.className = 'message error';
+                deleteFullBtn.disabled = false;
+                deleteFullBtn.textContent = 'Borrar evento y todas sus fotos';
             }
         });
 
