@@ -1063,6 +1063,11 @@ img {
         font-size: 1.1rem;
         padding: 16px 32px;
     }
+
+    /* Ocultar sección demo en móviles - no es viable en pantallas pequeñas */
+    .demo-section {
+        display: none;
+    }
 }
 
 /* Botón de navegación destacado */
