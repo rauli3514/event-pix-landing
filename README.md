@@ -1,31 +1,32 @@
-# EventPix - Landing Page
+# React + TypeScript + Vite
 
-Landing page oficial de EventPix, el muro interactivo de fotos para eventos.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-## 📋 Descripción
+Currently, two official plugins are available:
 
-EventPix permite que los invitados de tu evento suban fotos y mensajes que aparecen en tiempo real en una pantalla gigante. Esta es la landing page de marketing para promocionar el servicio.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## 🚀 Características
+## React Compiler
 
-- Diseño moderno oscuro con acentos fucsia/violeta
-- Totalmente responsive (móvil, tablet, desktop)
-- Secciones: Hero, Cómo funciona, Qué incluye, Precios, Testimonios, Demo, Servicios opcionales, Contacto
-- Integración con WhatsApp para contacto directo
-- Links a demo funcional del producto
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🌐 Publicación
+## Expanding the Oxlint configuration
 
-Esta landing está publicada en GitHub Pages y disponible en:
-- **GitHub Pages**: https://[tu-usuario].github.io/event-pix-landing/
-- **Dominio personalizado**: https://even-pix.com.ar (próximamente)
+If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
 
-## 📞 Contacto
+```json
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "options": {
+    "typeAware": true
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
+```
 
-- WhatsApp: +54 362 454 7382
-- Instagram: [@tecno_eventos_arg](https://www.instagram.com/tecno_eventos_arg/)
-- TikTok: [@tecno_eventos_arg](https://www.tiktok.com/@tecno_eventos_arg)
-
-## 📄 Licencia
-
-© 2025 EventPix - Tecno Eventos. Todos los derechos reservados.
+See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
