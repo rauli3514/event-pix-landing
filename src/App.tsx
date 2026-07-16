@@ -20,7 +20,7 @@ function App() {
             <a href="#precios" className="hover:text-white transition-colors">Precios</a>
           </div>
           <a 
-            href="https://event-pix.com.ar/usuarios" 
+            href="https://app.event-pix.com.ar/usuarios" 
             target="_blank"
             rel="noreferrer"
             className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full text-sm font-medium transition-all"
