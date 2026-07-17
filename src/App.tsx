@@ -31,47 +31,72 @@ function App() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-background to-background"></div>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-8">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              Nuevo Lanzamiento
-            </div>
-            <h1 className="text-5xl md:text-7xl font-display font-extrabold tracking-tight mb-8 leading-tight">
-              Transforma cualquier pantalla en una <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">herramienta de ventas.</span>
-            </h1>
-            <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              La solución sencilla y poderosa para mostrar tu contenido publicitario en pantallas de manera remota y en tiempo real.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="https://wa.me/5493624547382" target="_blank" rel="noreferrer" className="w-full sm:w-auto px-8 py-4 bg-primary hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all shadow-[0_0_40px_-10px_rgba(255,69,0,0.5)] flex items-center justify-center gap-2">
-                Contáctanos <ArrowRight className="w-5 h-5" />
-              </a>
-              <a href="#como-funciona" className="w-full sm:w-auto px-8 py-4 bg-surface border border-white/10 hover:bg-white/5 text-white rounded-full font-bold text-lg transition-all flex items-center justify-center">
-                Descubre Cómo
-              </a>
-            </div>
-
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            
+            {/* Left Column: Text */}
             <motion.div 
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-16 mx-auto max-w-5xl rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20 aspect-video relative bg-slate-900"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-left mt-8 lg:mt-0 text-center lg:text-left"
             >
-              <img src="/hero.jpg" alt="Display Digital en tu local" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight mb-6 leading-[1.1]">
+                Tu contenido.<br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">En todas tus pantallas.</span>
+              </h1>
+              <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
+                Administrá y actualizá el contenido de tus pantallas desde cualquier lugar. Más impacto, más ventas, más fácil que nunca.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8">
+                <a href="https://wa.me/5493624547382" target="_blank" rel="noreferrer" className="w-full sm:w-auto px-8 py-4 bg-primary hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all shadow-[0_0_30px_-10px_rgba(255,69,0,0.6)] flex items-center justify-center gap-2">
+                  Quiero Display Digital <ArrowRight className="w-5 h-5" />
+                </a>
+              </div>
+
+              {/* Mini Features */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/10 text-sm font-medium text-slate-400">
+                <div className="flex flex-col items-center lg:items-start gap-2">
+                  <RefreshCw className="w-5 h-5 text-primary" />
+                  <span className="text-center lg:text-left">Actualizá desde<br/>cualquier lugar</span>
+                </div>
+                <div className="flex flex-col items-center lg:items-start gap-2">
+                  <Clock className="w-5 h-5 text-primary" />
+                  <span className="text-center lg:text-left">Programá tus<br/>contenidos</span>
+                </div>
+                <div className="flex flex-col items-center lg:items-start gap-2">
+                  <Monitor className="w-5 h-5 text-primary" />
+                  <span className="text-center lg:text-left">Una o múltiples<br/>pantallas</span>
+                </div>
+                <div className="flex flex-col items-center lg:items-start gap-2">
+                  <Wifi className="w-5 h-5 text-primary" />
+                  <span className="text-center lg:text-left">Actualización<br/>inmediata</span>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
+
+            {/* Right Column: Visual */}
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative w-full max-w-2xl mx-auto"
+            >
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-primary/30 blur-[100px] rounded-full pointer-events-none"></div>
+              
+              {/* Fachada floating */}
+              <motion.img 
+                animate={{ y: [-8, 8, -8] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                src="/fachada.png" 
+                alt="Comercio con pantalla digital naranja" 
+                className="w-full h-auto object-contain relative z-10 drop-shadow-2xl" 
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -123,13 +148,19 @@ function App() {
                 <p className="text-slate-300 mb-8">
                   Conectamos cualquier TV para mostrar contenido profesional, dinámico y atractivo.
                 </p>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 mb-8">
                   {["Promociones", "Video", "Menús", "Ofertas", "Info Institucional", "Clima y Más"].map((item, i) => (
                     <div key={i} className="flex items-center gap-2 text-sm font-medium text-white bg-white/5 rounded-lg p-3 border border-white/5">
                       <CheckCircle2 className="text-primary w-4 h-4" /> {item}
                     </div>
                   ))}
                 </div>
+                
+                <img 
+                  src="/elementos2.png" 
+                  alt="Aplicaciones soportadas: Canva, YouTube, Web" 
+                  className="w-full h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" 
+                />
               </div>
             </motion.div>
           </div>
@@ -137,37 +168,74 @@ function App() {
       </section>
 
       {/* How it works */}
-      <section id="como-funciona" className="py-32 relative">
+      <section id="como-funciona" className="py-24 relative overflow-hidden bg-background">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">¿Cómo funciona?</h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-              Muy simple. Desde cualquier computadora o celular podes actualizar todas tus pantallas en segundos.
-            </p>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">Así de <span className="text-primary">simple</span> funciona</h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { icon: Monitor, title: "1. Conectamos", desc: "Enchufamos nuestro dispositivo a cualquier TV." },
-              { icon: Wifi, title: "2. A Internet", desc: "El equipo se conecta a tu red WiFi local." },
-              { icon: Smartphone, title: "3. Cargas", desc: "Subes tus videos y fotos desde la nube." },
-              { icon: RefreshCw, title: "4. Se Actualiza", desc: "La pantalla refleja los cambios al instante." }
-            ].map((step, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-surface border border-white/5 rounded-2xl p-8 text-center hover:border-primary/50 transition-colors group"
-              >
-                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:bg-primary/20">
-                  <step.icon className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
-              </motion.div>
-            ))}
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Diagram */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative order-2 lg:order-1"
+            >
+              <div className="absolute inset-0 bg-primary/10 blur-[80px] rounded-full pointer-events-none"></div>
+              <img 
+                src="/elementos.png" 
+                alt="Flujo de conexión y dispositivos de Display Digital" 
+                className="w-full h-auto object-contain relative z-10 drop-shadow-xl" 
+              />
+            </motion.div>
+
+            {/* Steps text */}
+            <div className="space-y-8 order-1 lg:order-2">
+              {[
+                { 
+                  icon: Monitor, 
+                  title: "1. Conectá tu pantalla", 
+                  desc: "Instalá nuestro dispositivo (TV Box) y conectalo a tu TV por HDMI." 
+                },
+                { 
+                  icon: Smartphone, 
+                  title: "2. Elegí qué mostrar", 
+                  desc: "Subí imágenes, videos, diseños de Canva, páginas web y más." 
+                },
+                { 
+                  icon: Clock, 
+                  title: "3. Publicá y programá", 
+                  desc: "Definí cuándo y dónde se mostrará cada contenido fácilmente." 
+                },
+                { 
+                  icon: Wifi, 
+                  title: "4. Se ve en tu pantalla", 
+                  desc: "Tu contenido aparece al instante, actualizándose por internet." 
+                }
+              ].map((step, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="flex gap-6 group"
+                >
+                  <div className="w-14 h-14 shrink-0 bg-surface border border-white/10 rounded-2xl flex items-center justify-center group-hover:border-primary/50 transition-colors shadow-lg">
+                    <step.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-white">{step.title}</h3>
+                    <p className="text-slate-400 text-sm md:text-base leading-relaxed">{step.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
