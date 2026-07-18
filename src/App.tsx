@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Monitor, Wifi, Smartphone, RefreshCw, CheckCircle2, PlayCircle, Clock } from 'lucide-react';
+import { ArrowRight, Monitor, Smartphone, RefreshCw, Cloud, ShieldCheck, PlayCircle, Settings, Store, CheckCircle2 } from 'lucide-react';
 
 function App() {
   return (
-    <div className="min-h-screen bg-background text-white font-sans selection:bg-primary/30">
+    <div className="min-h-screen bg-[#0B0F19] text-white font-sans selection:bg-primary/30">
       
       {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-white/5">
+      <nav className="fixed w-full z-50 bg-[#0B0F19]/80 backdrop-blur-md border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 bg-gradient-to-br from-primary to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
@@ -15,9 +15,9 @@ function App() {
             <span className="font-display font-bold text-2xl tracking-tight">Display Digital<span className="text-primary">.</span></span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            <a href="#solucion" className="hover:text-white transition-colors">La Solución</a>
             <a href="#como-funciona" className="hover:text-white transition-colors">Cómo Funciona</a>
-            <a href="#precios" className="hover:text-white transition-colors">Precios</a>
+            <a href="#plataforma" className="hover:text-white transition-colors">Plataforma</a>
+            <a href="#precios" className="hover:text-white transition-colors">Planes</a>
           </div>
           <a 
             href="https://app.event-pix.com.ar/usuarios" 
@@ -30,202 +30,85 @@ function App() {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* 1. Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-background to-background"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/15 via-[#0B0F19] to-[#0B0F19]"></div>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
-            {/* Left Column: Text */}
             <motion.div 
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-left mt-8 lg:mt-0 text-center lg:text-left"
+              className="text-center lg:text-left"
             >
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight mb-6 leading-[1.1]">
-                Tu contenido.<br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">En todas tus pantallas.</span>
+                Convertí cualquier pantalla en un <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">canal digital</span> para tu negocio.
               </h1>
               <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-                Administrá y actualizá el contenido de tus pantallas desde cualquier lugar. Más impacto, más ventas, más fácil que nunca.
+                Administrá y actualizá el contenido de tus pantallas desde cualquier lugar con nuestro Equipo Display Digital (EDD). Más impacto, más ventas.
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8">
                 <a href="https://wa.me/5493624547382" target="_blank" rel="noreferrer" className="w-full sm:w-auto px-8 py-4 bg-primary hover:bg-orange-600 text-white rounded-full font-bold text-lg transition-all shadow-[0_0_30px_-10px_rgba(255,69,0,0.6)] flex items-center justify-center gap-2">
-                  Quiero Display Digital <ArrowRight className="w-5 h-5" />
+                  Consultar por Display Digital <ArrowRight className="w-5 h-5" />
                 </a>
-              </div>
-
-              {/* Mini Features */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/10 text-sm font-medium text-slate-400">
-                <div className="flex flex-col items-center lg:items-start gap-2">
-                  <RefreshCw className="w-5 h-5 text-primary" />
-                  <span className="text-center lg:text-left">Actualizá desde<br/>cualquier lugar</span>
-                </div>
-                <div className="flex flex-col items-center lg:items-start gap-2">
-                  <Clock className="w-5 h-5 text-primary" />
-                  <span className="text-center lg:text-left">Programá tus<br/>contenidos</span>
-                </div>
-                <div className="flex flex-col items-center lg:items-start gap-2">
-                  <Monitor className="w-5 h-5 text-primary" />
-                  <span className="text-center lg:text-left">Una o múltiples<br/>pantallas</span>
-                </div>
-                <div className="flex flex-col items-center lg:items-start gap-2">
-                  <Wifi className="w-5 h-5 text-primary" />
-                  <span className="text-center lg:text-left">Actualización<br/>inmediata</span>
-                </div>
               </div>
             </motion.div>
 
-            {/* Right Column: Visual */}
             <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative w-full max-w-2xl mx-auto"
+              className="relative w-full mx-auto"
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-primary/30 blur-[100px] rounded-full pointer-events-none"></div>
-              
-              {/* Fachada floating */}
-              <motion.img 
-                animate={{ y: [-8, 8, -8] }}
-                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-                src="/fachada.png" 
-                alt="Comercio con pantalla digital naranja" 
-                className="w-full h-auto object-contain relative z-10 drop-shadow-2xl" 
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/20 blur-[100px] rounded-full pointer-events-none"></div>
+              <img 
+                src="/visual-hero.PNG" 
+                alt="Display Digital Hero" 
+                className="w-full h-auto object-contain relative z-10 drop-shadow-2xl rounded-2xl" 
               />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Problem Section */}
-      <section id="solucion" className="py-24 bg-surface border-y border-white/5 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">¿Esta es tu vidriera?</h2>
-              
-              <div className="rounded-2xl overflow-hidden border border-white/5 mb-8 opacity-70 saturate-0 hover:saturate-100 hover:opacity-100 transition-all duration-500 bg-slate-900">
-                  <img src="/problem.jpg" alt="Vidriera desordenada con papeles" className="w-full h-48 object-cover" />
-              </div>
-
-              <div className="space-y-6">
-                {[
-                  "Los carteles de papel pasan desapercibidos.",
-                  "Información desordenada o desactualizada.",
-                  "Pérdida de oportunidades de venta impulsiva."
-                ].map((text, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 mt-1">
-                      <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                    </div>
-                    <p className="text-slate-300 text-lg">{text}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-primary/20 to-surface border border-primary/20 rounded-3xl p-8 relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-primary/5 backdrop-blur-3xl"></div>
-              <div className="relative z-10">
-                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <Monitor className="text-primary w-8 h-8" /> 
-                  La Solución Digital
-                </h3>
-                <p className="text-slate-300 mb-8">
-                  Conectamos cualquier TV para mostrar contenido profesional, dinámico y atractivo.
-                </p>
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  {["Promociones", "Video", "Menús", "Ofertas", "Info Institucional", "Clima y Más"].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm font-medium text-white bg-white/5 rounded-lg p-3 border border-white/5">
-                      <CheckCircle2 className="text-primary w-4 h-4" /> {item}
-                    </div>
-                  ))}
-                </div>
-                
-                <img 
-                  src="/elementos2.png" 
-                  alt="Aplicaciones soportadas: Canva, YouTube, Web" 
-                  className="w-full h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" 
-                />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section id="como-funciona" className="py-24 relative overflow-hidden bg-background">
+      {/* 2. Cómo Funciona */}
+      <section id="como-funciona" className="py-24 relative overflow-hidden bg-[#0F1423]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">Así de <span className="text-primary">simple</span> funciona</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">¿Cómo <span className="text-primary">funciona</span>?</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full"></div>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Diagram */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative order-2 lg:order-1"
-            >
-              <div className="absolute inset-0 bg-primary/10 blur-[80px] rounded-full pointer-events-none"></div>
-              <img 
-                src="/elementos.png" 
-                alt="Flujo de conexión y dispositivos de Display Digital" 
-                className="w-full h-auto object-contain relative z-10 drop-shadow-xl" 
-              />
-            </motion.div>
-
-            {/* Steps text */}
-            <div className="space-y-8 order-1 lg:order-2">
+            <div className="space-y-8 order-2 lg:order-1">
               {[
                 { 
-                  icon: Monitor, 
-                  title: "1. Conectá tu pantalla", 
-                  desc: "Instalá nuestro dispositivo (TV Box) y conectalo a tu TV por HDMI." 
+                  icon: Settings, 
+                  title: "1. Conectás tu EDD a la pantalla", 
+                  desc: "Instalamos el Equipo Display Digital en tu comercio y lo conectamos a cualquier TV o monitor." 
                 },
                 { 
                   icon: Smartphone, 
-                  title: "2. Elegí qué mostrar", 
-                  desc: "Subí imágenes, videos, diseños de Canva, páginas web y más." 
+                  title: "2. Administrás tu contenido", 
+                  desc: "Ingresás a la plataforma de Display Digital desde tu celular o computadora y elegís qué mostrar." 
                 },
                 { 
-                  icon: Clock, 
-                  title: "3. Publicá y programá", 
-                  desc: "Definí cuándo y dónde se mostrará cada contenido fácilmente." 
-                },
-                { 
-                  icon: Wifi, 
-                  title: "4. Se ve en tu pantalla", 
-                  desc: "Tu contenido aparece al instante, actualizándose por internet." 
+                  icon: Monitor, 
+                  title: "3. Se muestra y actualiza", 
+                  desc: "Tu contenido se sincroniza al instante y comienza a reproducirse en tu negocio de forma automática." 
                 }
               ].map((step, i) => (
                 <motion.div 
                   key={i}
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex gap-6 group"
+                  className="flex gap-6 group bg-white/5 p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all"
                 >
-                  <div className="w-14 h-14 shrink-0 bg-surface border border-white/10 rounded-2xl flex items-center justify-center group-hover:border-primary/50 transition-colors shadow-lg">
+                  <div className="w-14 h-14 shrink-0 bg-[#0B0F19] rounded-xl flex items-center justify-center shadow-lg">
                     <step.icon className="w-6 h-6 text-primary" />
                   </div>
                   <div>
@@ -236,78 +119,179 @@ function App() {
               ))}
             </div>
 
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative order-1 lg:order-2"
+            >
+              <img 
+                src="/visual-features.PNG" 
+                alt="Flujo de funcionamiento" 
+                className="w-full h-auto object-contain relative z-10 drop-shadow-2xl rounded-2xl border border-white/10" 
+              />
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="precios" className="py-32 bg-surface border-t border-white/5 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="max-w-4xl mx-auto px-6 relative z-10">
+      {/* 3. Controlá todo desde un solo lugar */}
+      <section id="plataforma" className="py-24 relative bg-[#0B0F19]">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">Una plataforma. <span className="text-primary">Todas tus pantallas.</span></h2>
+            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+              Controlá el contenido de una o múltiples sucursales desde un único panel centralizado.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full pointer-events-none"></div>
+            <img 
+              src="/visual-plataforma.PNG" 
+              alt="Panel de control centralizado" 
+              className="w-full h-auto object-contain relative z-10 rounded-2xl drop-shadow-2xl border border-white/5" 
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 4. Todo el contenido que podés mostrar */}
+      <section className="py-24 relative overflow-hidden bg-[#0F1423] border-y border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">Propuesta Económica</h2>
-            <p className="text-xl text-slate-400">Invierte en la imagen de tu negocio.</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Todo el contenido que podés mostrar</h2>
+            <p className="text-slate-400">Potenciá tus ventas con contenido dinámico y atractivo.</p>
           </div>
 
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {[
+              "Promociones", "Imágenes y Videos", "Menús Digitales", "Páginas Web", 
+              "Redes Sociales", "Horarios", "Información Comercial", "Clima y Noticias"
+            ].map((feature, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="bg-[#0B0F19] border border-white/5 hover:border-primary/30 p-6 rounded-2xl text-center flex flex-col items-center gap-4 transition-colors group"
+              >
+                <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <CheckCircle2 className="w-6 h-6 text-primary" />
+                </div>
+                <span className="font-medium text-sm md:text-base text-slate-200">{feature}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Adaptado a tu negocio */}
+      <section className="py-24 relative bg-[#0B0F19]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">Una solución para <span className="text-primary">cada negocio</span></h2>
+            <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-sm font-medium text-slate-400">
+              <span className="px-4 py-2 bg-white/5 rounded-full border border-white/5">Restaurantes</span>
+              <span className="px-4 py-2 bg-white/5 rounded-full border border-white/5">Tiendas</span>
+              <span className="px-4 py-2 bg-white/5 rounded-full border border-white/5">Farmacias</span>
+              <span className="px-4 py-2 bg-white/5 rounded-full border border-white/5">Gimnasios</span>
+              <span className="px-4 py-2 bg-white/5 rounded-full border border-white/5">Hoteles</span>
+            </div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl"
+          >
+            <img 
+              src="/visual-comercios.PNG" 
+              alt="Ejemplos de negocios" 
+              className="w-full h-auto object-cover" 
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 6. Administración Remota & 7. Confiabilidad */}
+      <section className="py-24 relative bg-[#0F1423] border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-12">
+            
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-[#0B0F19] to-[#0F1423] p-10 rounded-3xl border border-white/5 relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[50px]"></div>
+              <Cloud className="w-10 h-10 text-primary mb-6 relative z-10" />
+              <h3 className="text-2xl font-bold mb-4 relative z-10">Actualizá tu contenido desde cualquier lugar</h3>
+              <p className="text-slate-400 leading-relaxed relative z-10">
+                Ya no necesitás estar físicamente frente a la pantalla ni usar pendrives. Con el Equipo Display Digital, tu contenido viaja por la nube directamente a tu negocio.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-[#0B0F19] to-[#0F1423] p-10 rounded-3xl border border-white/5 relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/20 blur-[50px]"></div>
+              <ShieldCheck className="w-10 h-10 text-emerald-400 mb-6 relative z-10" />
+              <h3 className="text-2xl font-bold mb-4 relative z-10">Confiabilidad profesional</h3>
+              <p className="text-slate-400 leading-relaxed relative z-10">
+                Diseñada para funcionar de forma continua. Tu contenido se mantiene disponible y reproduciéndose incluso ante problemas temporales de conexión, garantizando que tu pantalla nunca quede en negro.
+              </p>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Cierre y Conversión */}
+      <section id="precios" className="py-32 bg-[#0B0F19] border-t border-white/5 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
+          
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-background/80 backdrop-blur-xl border border-primary/30 rounded-3xl p-8 md:p-12 text-center shadow-2xl shadow-primary/10"
           >
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
-              <div className="text-left">
-                <h3 className="text-2xl font-bold mb-2">Plan Comercial</h3>
-                <p className="text-slate-400">Equipo en comodato + Licencia Mensual</p>
-              </div>
-              <div className="text-right">
-                <div className="flex items-start justify-end gap-1">
-                  <span className="text-3xl font-bold text-primary mt-1">$</span>
-                  <span className="text-6xl font-display font-extrabold tracking-tight">30.000</span>
-                </div>
-                <p className="text-slate-500 text-sm mt-1">por mes / por pantalla</p>
-              </div>
-            </div>
-
-            <div className="border-t border-white/10 pt-8 mb-10 text-left">
-              <div className="grid sm:grid-cols-2 gap-4">
-                {["Software de Cartelería Cloud", "Equipo Android TV Box incluido", "Soporte Remoto", "Múltiples Apps (Clima, Dólar)"].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                    <span className="text-slate-300">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <p className="text-xs text-slate-500 mb-8 max-w-lg mx-auto">
-              * Esta propuesta no incluye pantallas. Nuestro sistema se adapta a cualquier pantalla con entrada HDMI. Consúltanos planes para implementar en varias sucursales. El precio no incluye IVA. Sujeto a disponibilidad.
+            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-8 leading-tight">
+              ¿Querés llevar tu negocio al <span className="text-primary">siguiente nivel</span>?
+            </h2>
+            <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto">
+              Convertí tu pantalla en una herramienta de comunicación y ventas hoy mismo.
             </p>
 
-            <a href="https://wa.me/5493624547382" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-background hover:bg-slate-200 rounded-full font-bold text-lg transition-all w-full md:w-auto">
-              <Clock className="w-5 h-5" /> Convertí tu TV en un vendedor 24hs
+            <a href="https://wa.me/5493624547382" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-primary hover:bg-orange-600 text-white rounded-full font-bold text-xl transition-all shadow-[0_0_40px_-10px_rgba(255,69,0,0.6)] hover:shadow-[0_0_60px_-10px_rgba(255,69,0,0.8)] hover:scale-105">
+              Quiero Display Digital <ArrowRight className="w-6 h-6" />
             </a>
           </motion.div>
         </div>
       </section>
 
-      {/* Cross Selling Footer Section */}
-      <section className="py-20 bg-background border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-2xl font-bold mb-4">¿Buscas soluciones interactivas para tu evento?</h2>
-          <p className="text-slate-400 mb-8 max-w-2xl mx-auto">
-            Además de cartelería digital, somos expertos en entretenimiento para eventos. Conoce nuestro servicio de PhotoBooth, Trivias y Cartelera de Fotos en vivo.
-          </p>
-          <a href="https://event-pix.com.ar/eventos" className="inline-flex px-6 py-3 border border-white/20 hover:bg-white/5 rounded-full font-medium transition-colors">
-            Ver Soluciones para Eventos
-          </a>
-        </div>
-      </section>
-
       {/* Footer */}
-      <footer className="py-12 border-t border-white/5 text-center text-slate-500 text-sm">
+      <footer className="py-12 border-t border-white/5 text-center text-slate-500 text-sm bg-[#0B0F19]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} EventPix. Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} Display Digital. Todos los derechos reservados.</p>
           <div className="flex items-center gap-4">
             <a href="https://www.instagram.com/disp.digital/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
