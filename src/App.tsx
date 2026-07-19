@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Monitor, Smartphone, RefreshCw, Cloud, ShieldCheck, PlayCircle, Settings, Store, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Monitor, Smartphone, Cloud, ShieldCheck, PlayCircle, Settings, CheckCircle2 } from 'lucide-react';
 
 function App() {
   return (
