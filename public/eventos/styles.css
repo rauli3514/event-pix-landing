@@ -219,11 +219,6 @@ img {
     flex-wrap: wrap;
 }
 
-/* Ocultar botón Ver Fotos en desktop */
-.btn-ver-fotos-mobile {
-    display: none;
-}
-
 .hero-image {
     position: relative;
 }
@@ -1006,11 +1001,6 @@ img {
         width: 100%;
         min-width: unset;
         padding: 14px 20px;
-    }
-
-    /* Mostrar botón Ver Fotos en móviles */
-    .btn-ver-fotos-mobile {
-        display: inline-flex !important;
     }
 
     .nav-links {
