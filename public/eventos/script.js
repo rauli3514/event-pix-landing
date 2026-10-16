@@ -1,63 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('EventPix Landing Loaded');
+// EventPix · página de eventos
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
+const WHATSAPP = '543624547382';
 
-    // Simple intersection observer for fade-in animations
-    const observerOptions = {
-        threshold: 0.1
-    };
+// Menú en el celular
+const nav = document.querySelector('.nav');
+document.getElementById('nav-toggle')?.addEventListener('click', () => nav.classList.toggle('open'));
+document.querySelectorAll('#nav-links a').forEach((a) => a.addEventListener('click', () => nav.classList.remove('open')));
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Select elements to animate
-    const animatedElements = document.querySelectorAll('.step-card, .feature-item, .service-card, .testimonial-card');
-
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-        observer.observe(el);
-    });
-
-    // --- Demo Section Logic ---
-    // La sección de demostración ahora utiliza un iframe que apunta directamente a la aplicación principal.
-    // Se ha eliminado la lógica JS personalizada para evitar conflictos.
-    const demoResetBtn = document.getElementById('demo-reset-btn');
-    if (demoResetBtn) {
-        demoResetBtn.addEventListener('click', () => {
-            const iframe = document.querySelector('.demo-screen-content iframe');
-            if (iframe) {
-                // Reload iframe
-                iframe.src = iframe.src;
-
-                const icon = demoResetBtn.querySelector('i');
-                if (icon) {
-                    icon.style.transition = 'transform 0.5s';
-                    icon.style.transform = 'rotate(180deg)';
-                    setTimeout(() => icon.style.transform = 'rotate(0deg)', 500);
-                }
-            }
-        });
+// "¿Está libre tu fecha?" → WhatsApp con la fecha escrita
+const dateInput = document.getElementById('fecha');
+if (dateInput) {
+    const t = new Date();
+    dateInput.min = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+}
+document.getElementById('check-date')?.addEventListener('click', () => {
+    const value = dateInput?.value;
+    let text = '¡Hola! Quiero saber si tienen disponible EventPix para mi evento.';
+    if (value) {
+        const [y, m, d] = value.split('-').map(Number);
+        const label = new Date(y, m - 1, d).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        text = `¡Hola! ¿Tienen disponible EventPix para el ${label}?`;
+    } else {
+        dateInput?.focus();
     }
-
+    if (typeof gtag === 'function') gtag('event', 'consulta_fecha', { fecha: value || 'sin_fecha' });
+    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
 });
+
+// Medir qué botones se usan (Google Analytics)
+document.querySelectorAll('[data-track]').forEach((el) => {
+    el.addEventListener('click', () => {
+        if (typeof gtag === 'function') gtag('event', el.dataset.track);
+    });
+});
+
+// Las secciones aparecen suave al bajar
+const revealables = document.querySelectorAll('.section .moment, .section .step, .included li, .reviews blockquote, .services div');
+if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    revealables.forEach((el) => { el.classList.add('reveal'); io.observe(el); });
+}
