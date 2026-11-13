@@ -1,32 +1,34 @@
-# React + TypeScript + Vite
+# Display Digital · página web (event-pix.com.ar)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Página publicitaria de Display Digital. React + Vite + Tailwind; se publica sola en GitHub Pages
+cuando se hace merge a `main` (ver `.github/workflows/deploy.yml`).
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # deja la página en dist/
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Secciones
+
+Inicio (TV con carteles que se van pasando) · Carteles (carrusel + galería por rubro) · Fudo ·
+Mosaicos (formas de combinar pantallas, Espejo, Olas, Pantalla dividida) · Descuentos por tiempo ·
+Herramientas · Cómo funciona · Precio · Preguntas · WhatsApp.
+
+El precio y el número de WhatsApp están al principio de `src/App.tsx` (`PRECIO`, `WHATSAPP`).
+
+## Imágenes
+
+Son carteles reales de la app (repo `event-pix`, `src/lib/posters.ts`), renderizados con el mismo
+componente que usa la TV (`PosterView`). Las fotos de los carteles son de Unsplash (ver
+`docs/carteles.md` en `event-pix`).
+
+- `public/carteles/<id>-16x9.webp`: los 54 diseños (la lista está en `src/carteles.ts`).
+- `public/mosaicos/`: un cartel por cada forma de mosaico, elegido para que ningún texto quede en la
+  unión entre TVs.
+- `public/inicio/`: los carteles del inicio y del descuento por tiempo.
+- `public/app/`: capturas de la app con datos de un local inventado ("La Esquina").
+- `public/og.jpg`: la imagen que aparece al compartir el link (WhatsApp, Facebook).
+
+Si se agregan diseños nuevos en la app, hay que volver a generar las imágenes y sumar el diseño a
+`src/carteles.ts`.
