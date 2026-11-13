@@ -21,3 +21,22 @@
     font-family: var(--font-sans);
   }
 }
+
+/* Carrusel de carteles: dos filas que pasan solas, en sentidos contrarios. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee {
+  animation: marquee 90s linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+  animation-duration: 110s;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee { animation: none; }
+}
