@@ -11,6 +11,8 @@ import { CARTELES } from './carteles';
 
 const WHATSAPP = 'https://wa.me/5493624547382?text=' + encodeURIComponent('¡Hola! Quiero conocer Display Digital');
 const APP = 'https://app.event-pix.com.ar/usuarios';
+// "Probalo": registro para probar el panel (cuenta de prueba de 7 días).
+const PROBAR = 'https://app.event-pix.com.ar/probar';
 const PRECIO = '$30.000';
 
 const HERO = ['pizzas-16x9-promo', 'combo-burger-16x9', 'helados-precios-16x9', 'happy-hour-16x9', 'consolas-16x9', 'gym-planes-16x9', 'vinos-16x9'].map(n => `/inicio/${n}.webp`);
@@ -24,7 +26,8 @@ const fadeUp = {
 };
 
 function Boton({ href, children, variant = 'primary', className = '' }: { href: string; children: ReactNode; variant?: 'primary' | 'ghost'; className?: string }) {
-  const external = href.startsWith('http');
+  // WhatsApp y otros sitios en otra pestaña; "Probalo" en la misma.
+  const external = href.startsWith('http') && href !== PROBAR;
   return (
     <a
       href={href}
@@ -89,11 +92,11 @@ function Nav() {
   return (
     <nav className="fixed w-full z-50 bg-[#0B0F19]/85 backdrop-blur-md border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between gap-4">
-        <a href="#" className="flex items-center gap-2 shrink-0">
+        <a href="#" aria-label="Display Digital" className="flex items-center gap-2 shrink-0">
           <span className="w-9 h-9 md:w-10 md:h-10 bg-gradient-to-br from-primary to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
             <PlayCircle className="text-white w-5 h-5 md:w-6 md:h-6" />
           </span>
-          <span className="font-display font-bold text-xl md:text-2xl tracking-tight">Display Digital<span className="text-primary">.</span></span>
+          <span className="hidden min-[420px]:inline font-display font-bold text-xl md:text-2xl tracking-tight">Display Digital<span className="text-primary">.</span></span>
         </a>
         <div className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
           <a href="#carteles" className="hover:text-white transition-colors">Carteles</a>
@@ -104,7 +107,7 @@ function Nav() {
         </div>
         <div className="flex items-center gap-2">
           <a href={APP} target="_blank" rel="noreferrer" className="px-4 md:px-5 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm font-medium transition-colors">Ingresar</a>
-          <a href={WHATSAPP} target="_blank" rel="noreferrer" className="hidden sm:inline-flex px-5 py-2 bg-primary hover:bg-orange-600 rounded-full text-sm font-bold transition-colors">Quiero probarlo</a>
+          <a href={PROBAR} className="inline-flex px-4 md:px-5 py-2 bg-primary hover:bg-orange-600 rounded-full text-sm font-bold transition-colors">Probalo</a>
         </div>
       </div>
     </nav>
@@ -128,7 +131,7 @@ function Hero() {
             Elegí un cartel de tu rubro, cargá tus precios o traelos de Fudo en un clic, y mostralo en una o en varias pantallas. Todo desde el celular.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
-            <Boton href={WHATSAPP} className="w-full sm:w-auto text-lg">Quiero probarlo <ArrowRight className="w-5 h-5" /></Boton>
+            <Boton href={PROBAR} className="w-full sm:w-auto text-lg">Probalo <ArrowRight className="w-5 h-5" /></Boton>
             <Boton href="#carteles" variant="ghost" className="w-full sm:w-auto">Ver los carteles</Boton>
           </div>
           <p className="mt-6 text-sm text-slate-400">
@@ -391,7 +394,10 @@ function Precio() {
               <span className="text-6xl md:text-7xl">{PRECIO}</span>
               <span className="block mt-3 text-xl md:text-2xl font-medium text-slate-300">por mes</span>
             </p>
-            <Boton href={WHATSAPP} className="mt-8 w-full sm:w-auto text-lg">Quiero empezar <ArrowRight className="w-5 h-5" /></Boton>
+            <Boton href={PROBAR} className="mt-8 w-full sm:w-auto text-lg">Probalo <ArrowRight className="w-5 h-5" /></Boton>
+            <a href={WHATSAPP} target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-center md:justify-start gap-2 text-sm text-slate-300 hover:text-white">
+              <MessageCircle className="w-4 h-4 text-[#25D366]" /> o escribinos por WhatsApp
+            </a>
           </div>
           <ul className="relative space-y-3.5">
             {incluye.map(t => (
@@ -440,12 +446,18 @@ function Final() {
       <motion.div {...fadeUp} className="relative max-w-4xl mx-auto px-4 md:px-6 text-center">
         <h2 className="text-4xl md:text-6xl font-display font-extrabold mb-6 leading-tight text-balance">Menos carteles impresos. Más ventas.</h2>
         <p className="text-xl md:text-2xl font-light text-white/90 mb-10 text-pretty">
-          Escribinos y te mostramos cómo quedan tus precios y tus promos en la TV de tu local.
+          Probalo con tus precios y tus promos, o escribinos y te mostramos cómo queda en la TV de tu local.
         </p>
-        <a href={WHATSAPP} target="_blank" rel="noreferrer"
-          className="inline-flex items-center gap-3 rounded-full bg-white text-[#0B0F19] px-9 py-4 text-lg md:text-xl font-bold shadow-2xl hover:scale-[1.03] transition-transform">
-          <MessageCircle className="w-6 h-6 text-[#25D366]" /> Hablemos por WhatsApp
-        </a>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href={PROBAR}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#0B0F19] text-white px-9 py-4 text-lg md:text-xl font-bold shadow-2xl hover:scale-[1.03] transition-transform">
+            Probalo <ArrowRight className="w-5 h-5" />
+          </a>
+          <a href={WHATSAPP} target="_blank" rel="noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-white text-[#0B0F19] px-9 py-4 text-lg md:text-xl font-bold shadow-2xl hover:scale-[1.03] transition-transform">
+            <MessageCircle className="w-6 h-6 text-[#25D366]" /> Hablemos por WhatsApp
+          </a>
+        </div>
       </motion.div>
     </section>
   );
@@ -469,6 +481,7 @@ function Footer() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p>© {new Date().getFullYear()} Display Digital by EventPix</p>
           <div className="flex items-center gap-5">
+            <a href={PROBAR} className="hover:text-primary transition-colors">Probalo</a>
             <a href={APP} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Ingresar</a>
             <a href={WHATSAPP} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">WhatsApp 362 454-7382</a>
             <a href="https://www.instagram.com/disp.digital/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">@disp.digital</a>
